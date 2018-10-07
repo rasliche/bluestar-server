@@ -3,6 +3,9 @@ const bodyParser = require('body-parser')
 const cors = require('cors')
 const morgan = require('morgan')
 
+// Routes
+const users = require('./routes/users')
+
 var mongoose = require('mongoose')
 mongoose.connect('mongodb://localhost:27017/shops')
 
@@ -11,6 +14,9 @@ db.on("error", console.error.bind(console, "connection erro"))
 db.once("open", function(callback){
   console.log("Connection Succeeded")
 })
+
+// Routes
+
 
 // Models
 var User = require('../models/user.js')
@@ -25,58 +31,7 @@ console.log('Hello World')
 console.log(process.env)
 
 // USERS API ENDPOINTS
-
-// "/api/users"
-//     GET: finds all users
-//     POST: creates a new user
-
-app.get('/api/users', (req,res) => {
-    User.find((error, users) => {
-        if (error) return next(error);
-        res.json(users)
-    })
-})
-
-app.post('/api/users', (req,res) => {
-    var db = req.db;
-    console.log(req)
-    var firstName = req.body.firstName
-    var lastName = req.body.lastName
-    var email = req.body.email
-
-    var user = new User({
-        firstName: firstName,
-        lastName: lastName,
-        email: email
-    })
-
-    console.log(user)
-
-    user.save(function (error) {
-        if (error) {
-            console.log(error)
-        }
-        res.send({
-            success: true,
-            message: 'User saved successfully',
-            user: user
-        })
-    })
-})
-
-// "/api/users/:id"
-//     GET: find user by id
-//     PUT: update user by id
-//     DELETE: delete user by id
-
-app.get("/api/users/:id", (req, res) => {
-})
-
-app.put("/api/users/:id", (req, res) => {
-})
-
-app.delete("/api/users/:id", (req, res) => {
-})
+app.use('/api/users', users)
 
 // QUIZZES API ENDPOINTS
 
@@ -201,4 +156,6 @@ app.put('/shops/:id', (req, res) => {
 //     )
 // })
 
-app.listen(process.env.PORT || 8081)
+// PORT environment variable
+const port = process.env.port || 8081
+app.listen(port, () => console.log(`Listening on port ${port}...`))
