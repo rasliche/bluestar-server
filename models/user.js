@@ -1,13 +1,24 @@
-var mongoose = require('mongoose')
-var Schema = mongoose.Schema;
+const Joi = require('joi')
+const mongoose = require('mongoose')
 
-var UserSchema = new Schema({
-    firstName: String,
-    lastName: String,
-    email: String,
-    shops: Array,
-    role: String
-})
+const User = mongoose.model('User', mongoose.Schema({
+    // firstName: String,
+    // lastName: String,
+    email: {
+        type: String,
+        required: true
+    }//,
+    // shops: Array,
+    // role: String
+}))
 
-var User = mongoose.model("User", UserSchema)
-module.exports = User
+function validateUser(user) {
+    const schema = {
+        email: Joi.string().required()
+    }
+    return Joi.validate(user, schema)
+
+}
+
+module.exports.User = User
+module.exports.validate = validateUser
