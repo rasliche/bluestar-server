@@ -19,7 +19,7 @@ router.post('/', async (req, res) => {
     const { error } = validate(req.body)
     if (error) return res.status(400).send(error.details[0].message)
 
-    // Use let so customer can be reassigned
+    // Use let so user can be reassigned
     let user = new User({ email: req.body.email })
     user = await user.save()
 

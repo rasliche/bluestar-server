@@ -1,14 +1,34 @@
-var mongoose = require('mongoose')
-var Schema = mongoose.Schema;
+const Joi = require('joi')
+const mongoose = require('mongoose')
 
-var ShopSchema = new Schema({
-    name: String,
+const Shop = mongoose.model('Shop', mongoose.Schema({
+    name: {
+        type: String,
+        required: true
+    },
+    email: {
+        type: String,
+        required: true
+    },
     location: String,
     vessels: Number,
-    phone: Number,
+    phone: String,
     owner: String,
-    bsLiason: String
-})
+    liaison: String
+}))
 
-var Shop = mongoose.model("Shop", ShopSchema)
-module.exports = Shop
+function validateShop(shop) {
+    const schema = {
+        name: Joi.string().required(),
+        email: Joi.string().required(),
+        location: Joi.string(),
+        vessels: Joi.number(),
+        phone: Joi.string(),
+        owner: Joi.string(),
+        liaison: Joi.string()
+    }
+    return Joi.validate(shop, schema)
+}
+
+module.exports.Shop = Shop
+module.exports.validate = validateShop

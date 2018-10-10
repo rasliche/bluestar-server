@@ -17,7 +17,6 @@ function validateUser(user) {
         email: Joi.string().required()
     }
     return Joi.validate(user, schema)
-
 }
 
 module.exports.User = User
