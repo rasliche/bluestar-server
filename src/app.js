@@ -4,6 +4,7 @@ const mongoose = require('mongoose')
 const helmet = require('helmet')
 const morgan = require('morgan')
 const express = require('express')
+const cors = require('cors')
 
 const app = express()
 
@@ -12,6 +13,7 @@ if (app.get('env') === 'development') {
     startupDebugger("Morgan enabled...")
 }
 
+app.use(cors())
 app.use(express.json())
 app.use(express.static('public'))
 
