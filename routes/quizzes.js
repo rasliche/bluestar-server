@@ -20,7 +20,11 @@ router.post('/', async (req, res) => {
     if (error) res.status(400).send(error.details[0].message)
 
     // Use let so quiz can be reassigned
-    let quiz = new Quiz({ title: req.body.title })
+    let quiz = new Quiz({ 
+        title: req.body.title,
+        description: req.body.description,
+        author: req.body.author
+    })
     quiz = await quiz.save()
 
     // send the quiz document back to the frontend
@@ -47,7 +51,9 @@ router.put("/:id", async (req, res) => {
     if (error) res.status(400).send(error.details[0].message)
 
     const quiz = await Quiz.findByIdAndUpdate(req.params.id, {
-        email: req.body.email
+        title: req.body.title,
+        description: req.body.description,
+        author: req.body.author
     },
     {
         new: true
