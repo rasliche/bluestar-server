@@ -17,7 +17,7 @@ router.get('/', async (req, res) => {
 router.post('/', async (req, res) => {
     routeDebugger(req.body)
     const { error } = validate(req.body)
-    if (error) return res.status(400).send(error.details[0].message)
+    if (error) res.status(400).send(error.details[0].message)
 
     // Use let so quiz can be reassigned
     let quiz = new Quiz({ title: req.body.title })
@@ -34,7 +34,7 @@ router.post('/', async (req, res) => {
 
 router.get("/:id", async (req, res) => {
     const quiz = await Quiz.find({ _id: req.params.id})
-    if (!quiz) return res.status(404).send("A quiz with the provided ID was not found.")
+    if (!quiz) res.status(404).send("A quiz with the provided ID was not found.")
 
     res.send(quiz)
 })
@@ -44,7 +44,7 @@ router.put("/:id", async (req, res) => {
     // uses Joi validation
     const { error } = validate(req.body) // result.error
     // send 400 Bad Request
-    if (error) return res.status(400).send(error.details[0].message)
+    if (error) res.status(400).send(error.details[0].message)
 
     const quiz = await Quiz.findByIdAndUpdate(req.params.id, {
         email: req.body.email
@@ -53,7 +53,7 @@ router.put("/:id", async (req, res) => {
         new: true
     })
 
-    if (!quiz) return res.status(404).send("A quiz with the provided ID was not found.")
+    if (!quiz) res.status(404).send("A quiz with the provided ID was not found.")
 
     // Send quiz back to client
     res.send(quiz)
@@ -61,7 +61,7 @@ router.put("/:id", async (req, res) => {
 
 router.delete("/:id", async (req, res) => {
     const quiz = await Quiz.findByIdAndDelete(req.params.id)
-    if (!quiz) return res.status(404).send("A quiz with the provided ID was not found.")
+    if (!quiz) res.status(404).send("A quiz with the provided ID was not found.")
 
     res.send(quiz)
 })
