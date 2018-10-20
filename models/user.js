@@ -1,5 +1,9 @@
 const Joi = require('joi')
 const mongoose = require('mongoose')
+const Joi = require('joi')
+const config = require('config')
+const jwt = require('jsonwebtoken')
+// Joi password complexity npm password
 
 const User = mongoose.model('User', mongoose.Schema({
     // firstName: String,
