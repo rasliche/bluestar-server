@@ -1,4 +1,3 @@
-const Joi = require('joi')
 const mongoose = require('mongoose')
 const Joi = require('joi')
 const config = require('config')
