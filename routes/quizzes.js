@@ -54,10 +54,10 @@ router.put("/:id", async (req, res) => {
         title: req.body.title,
         description: req.body.description,
         author: req.body.author
-    },
-    {
-        new: true
-    })
+        },
+        {
+            new: true
+        })
 
     if (!quiz) res.status(404).send("A quiz with the provided ID was not found.")
 
