@@ -16,6 +16,7 @@ const Topic = mongoose.model('Topic', mongoose.Schema({
 function validateTopic(topic) {
     const schema = {
         title: Joi.string().required(),
+        relevantPrograms: Joi.array(),
         content: Joi.string().required()
     }
     return Joi.validate(topic, schema)
