@@ -12,6 +12,7 @@ if (!config.get("jwtPrivateKey")) {
 }
 
 const app = express()
+app.use(cors())
 require('./startup/db')()
 require('./startup/routes')(app)
 
@@ -21,7 +22,6 @@ if (app.get('env') === 'development') {
 }
 
 // throw new Error("Hey Winston!")
-app.use(cors())
 app.use(express.static('public'))
 
 // PORT environment variable
