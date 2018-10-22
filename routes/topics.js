@@ -9,7 +9,7 @@ const { Topic, validate } = require('../models/topic')
 //     POST: creates a new topic
 
 router.get('/', async (req, res) => {
-    const topics = await Topic.find().sort({ title: 1 })
+    const topics = await Topic.find()
     res.send(topics)
 })
 
