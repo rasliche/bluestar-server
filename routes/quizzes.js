@@ -1,4 +1,3 @@
-const routeDebugger = require('debug')('app:routes:quizzes')
 const express = require('express')
 const router = express.Router()
 
@@ -15,7 +14,6 @@ router.get('/', async (req, res) => {
 })
 
 router.post('/', async (req, res) => {
-    routeDebugger(req.body)
     const { error } = validate(req.body)
     if (error) res.status(400).send(error.details[0].message)
 
