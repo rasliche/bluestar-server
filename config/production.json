@@ -1,6 +1,4 @@
 {
     "jwtPrivateKey": "BS_JWT_PRIVATE_KEY",
-    "db": "ds125602.mlab.com:25602/bluestar",
-    "dbUser": "BS_DB_USER",
-    "dbPass": "BS_DB_PASS"
+    "db": "DB"
 }

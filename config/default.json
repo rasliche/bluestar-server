@@ -1,6 +1,4 @@
 {
     "jwtPrivateKey": "",
-    "db": "localhost/bluestar",
-    "dbUser": "",
-    "dbPass": ""
+    "db": ""
 }

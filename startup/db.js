@@ -4,20 +4,17 @@ const config = require('config')
 
 // Database Connection
 module.exports = function() {
-    const db = config.get('db')
-    const dbUser = config.get('dbUser')
-    const dbPass = config.get('dbPass')
+    const db = config.get('db') || 'mongodb://localhost:27017/bluestar'
     
-    let dbString
-    if (config.get('dbUser')) {
-        logger.info('Production DB')
-        dbString = `mongodb://${dbUser}:${dbPass}@${db}`
-    } else {
-        logger.info('Development DB')
-        dbString = `mongodb://${db}`
-    }
+    // if (!config.get('dbUser')) {
+    //     logger.info('Production DB')
+    //     dbString = `mongodb://${dbUser}:${dbPass}@${db}`
+    // } else {
+    //     logger.info('Development DB')
+    //     dbString = `mongodb://${db}`
+    // }
     
-    mongoose.connect(dbString)
-        .then(() => logger.info(`Connected to ${dbString}...`))
-        .catch(error => logger.error("Error connecting to bluestar database.", error))
+    mongoose.connect(db)
+        .then(() => logger.info(`Connected to ${db}...`))
+        .catch(error => logger.error(error, "Error connecting to bluestar database."))
 }
