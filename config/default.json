@@ -1,6 +1,6 @@
 {
     "jwtPrivateKey": "",
-    "db": "mongodb://localhost/bluestar",
+    "db": "localhost/bluestar",
     "dbUser": "",
     "dbPass": ""
 }

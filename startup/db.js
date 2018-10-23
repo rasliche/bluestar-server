@@ -8,7 +8,16 @@ module.exports = function() {
     const dbUser = config.get('dbUser')
     const dbPass = config.get('dbPass')
     
-    mongoose.connect(`mongodb://${dbUser}:${dbPass}@${db}`)
-        .then(() => logger.info(`Connected to ${db}...`))
+    let dbString
+    if (config.get('dbUser')) {
+        logger.info('Production DB')
+        dbString = `mongodb://${dbUser}:${dbPass}@${db}`
+    } else {
+        logger.info('Development DB')
+        dbString = `mongodb://${db}`
+    }
+    
+    mongoose.connect(dbString)
+        .then(() => logger.info(`Connected to ${dbString}...`))
         .catch(error => logger.error("Error connecting to bluestar database.", error))
 }
