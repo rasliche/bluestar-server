@@ -25,5 +25,5 @@ if (app.get('env') === 'development') {
 app.use(express.static('public'))
 
 // PORT environment variable
-const port = process.env.PORT || 8081
+const port = process.env.PORT || 8080
 app.listen(port, () => logger.info(`Listening on port ${port}...`))
