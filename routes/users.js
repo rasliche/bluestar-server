@@ -1,7 +1,11 @@
-const routeDebugger = require('debug')('app:routes:users')
+const jwt = require('jsonwebtoken')
+const config = require('config')
 const express = require('express')
 const router = express.Router()
-
+const auth = require('../middleware/auth')
+const admin = require('../middleware/admin')
+const _ = require('lodash')
+const bcrypt = require('bcrypt')
 const { User, validate } = require('../models/user')
 
 // USERS API ENDPOINTS
@@ -10,21 +14,29 @@ const { User, validate } = require('../models/user')
 //     POST: creates a new user
 
 router.get('/', async (req, res) => {
-    const users = await User.find().sort({ name: 1 })
+    const users = await User.find().sort({ lastName: 1 })
     res.send(users)
 })
 
 router.post('/', async (req, res) => {
-    routeDebugger(req.body)
     const { error } = validate(req.body)
     if (error) return res.status(400).send(error.details[0].message)
 
+    let user = await User.findOne({ email: req.body.email })
+    if (user) return res.status(400).send('User already registered')
+
     // Use let so user can be reassigned
-    let user = new User({ email: req.body.email })
+    user = new User(_.pick(req.body, ['firstName', 'lastName', 'email', 'password']))
+    const salt = await bcrypt.genSalt(10)
+    user.password = await bcrypt.hash(user.password, salt)
+
     user = await user.save()
 
+    // set x-auth-token header
+    res.setHeader('x-auth-token', user.generateAuthToken())
+
     // send the user document back to the frontend
-    res.send(user)
+    res.send(_.pick(user, ['firstName', 'lastName', '_id', 'email']))
 })
 
 // "/api/users/:id"
