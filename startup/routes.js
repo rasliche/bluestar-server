@@ -1,14 +1,16 @@
 const express = require('express')
+const auth = require('../routes/auth')
 const users = require('../routes/users')
-const shops = require('../routes/shops')
-const quizzes = require('../routes/quizzes')
-const topics = require('../routes/topics')
+// const shops = require('../routes/shops')
+// const quizzes = require('../routes/quizzes')
+// const topics = require('../routes/topics')
 
 module.exports = function (app) {
     app.use(express.json())
     // Routes
+    app.use('/api/auth', auth)
     app.use('/api/users', users)
-    app.use('/api/shops', shops)
-    app.use('/api/quizzes', quizzes)
-    app.use('/api/topics', topics)
+    // app.use('/api/shops', shops)
+    // app.use('/api/quizzes', quizzes)
+    // app.use('/api/topics', topics)
 }
