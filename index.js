@@ -1,9 +1,15 @@
 require('express-async-errors')
+const config = require('config')
 const morgan = require('morgan')
 const express = require('express')
 const cors = require('cors')
 const helmet = require('helmet')
 // const logger = require('./utilities/logger')
+
+if (!config.get('jwtPrivateKey')) {
+    console.error("FATAL ERROR: jwtPrivateKey is not defined")
+    process.exit(1)
+}
 
 const app = express()
 app.use(helmet())
