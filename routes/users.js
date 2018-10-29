@@ -1,3 +1,5 @@
+const jwt = require('jsonwebtoken')
+const config = require('config')
 const express = require('express')
 const router = express.Router()
 const auth = require('../middleware/auth')
@@ -29,6 +31,9 @@ router.post('/', async (req, res) => {
     user.password = await bcrypt.hash(user.password, salt)
 
     user = await user.save()
+
+    // set x-auth-token header
+    res.setHeader('x-auth-token', user.generateAuthToken())
 
     // send the user document back to the frontend
     res.send(_.pick(user, ['firstName', 'lastName', '_id', 'email']))
