@@ -1,8 +1,9 @@
+const config = require('config')
 const mongoose = require('mongoose')
 
 // Database Connection
 module.exports = function() {
-    const db = 'mongodb://localhost:27017/bluestar'
+    const db = config.get('db')
     //config.get('db')
     
     mongoose.connect(db)

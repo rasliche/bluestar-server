@@ -1,4 +1,4 @@
 {
-    "jwtPrivateKey": "BS_JWT_PRIVATE_KEY",
-    "db": "DB"
+    "jwtPrivateKey": "process.env.BS_JWT_PRIVATE_KEY",
+    "db": "process.env.DB"
 }
