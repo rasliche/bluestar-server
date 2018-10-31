@@ -1,5 +1,5 @@
-const jwt = require('jsonwebtoken')
 const config = require('config')
+const jwt = require('jsonwebtoken')
 const express = require('express')
 const router = express.Router()
 const auth = require('../middleware/auth')
@@ -33,17 +33,16 @@ router.post('/', async (req, res) => {
     if (user) return res.status(400).send('User already registered')
 
     // Use let so user can be reassigned
-    user = new User(_.pick(req.body, ['firstName', 'lastName', 'email', 'password']))
+    user = new User(_.pick(req.body, ['firstName', 'lastName', 'email', 'isAdmin', 'password']))
     const salt = await bcrypt.genSalt(10)
     user.password = await bcrypt.hash(user.password, salt)
 
     user = await user.save()
 
     // set x-auth-token header
-    res.setHeader('x-auth-token', user.generateAuthToken())
-
     // send the user document back to the frontend
-    res.send(_.pick(user, ['firstName', 'lastName', '_id', 'email']))
+    res.header('x-auth-token', user.generateAuthToken())
+        .send(_.pick(user, ['firstName', 'lastName', '_id', 'email']))
 })
 
 // "/api/users/:id"
