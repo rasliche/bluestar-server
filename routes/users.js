@@ -18,6 +18,13 @@ router.get('/', [auth, admin], async (req, res) => {
     res.send(users)
 })
 
+router.get('/me', [auth], async (req, res) => {
+    const { _id } = jwt.decode(req.header('x-auth-token'), config.get('jwtPrivateKey'))
+    let user = await User.findById(_id)
+    user = _.pick(user, ['_id', 'firstName', 'lastName', 'email', 'isAdmin', 'canModerate'])
+    res.send(user)
+})
+
 router.post('/', async (req, res) => {
     const { error } = validate(req.body)
     if (error) return res.status(400).send(error.details[0].message)
