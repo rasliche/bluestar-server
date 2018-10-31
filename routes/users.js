@@ -13,7 +13,7 @@ const { User, validate } = require('../models/user')
 //     GET: finds all users
 //     POST: creates a new user
 
-router.get('/', async (req, res) => {
+router.get('/', [auth, admin], async (req, res) => {
     const users = await User.find().sort({ lastName: 1 })
     res.send(users)
 })
