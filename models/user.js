@@ -34,16 +34,19 @@ const userSchema = new mongoose.Schema({
         type: Boolean,
         default: false
     },
-    canModerate: {
-        type: Array
-    }
+    canModerate: [{
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Shop'
+    }],
+    shops: [{
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Shop'
+    }]
 })
 
 userSchema.methods.generateAuthToken = function() { // No arrow function
     const token = jwt.sign({ 
-        _id: this._id, 
-        firstName: this.firstName,
-        lastName: this.lastName,
+        _id: this._id,
         isAdmin: this.isAdmin,
         canModerate: this.canModerate
     }, config.get('jwtPrivateKey'))
@@ -58,6 +61,8 @@ function validateUser(user) {
         lastName: Joi.string().min(1).max(50).required(),
         email: Joi.string().min(5).max(255).required().email(),
         isAdmin: Joi.boolean(),
+        canModerate: Joi.array(),
+        shops: Joi.array(),
         password: Joi.string().min(8).max(255).required()
     }
     return Joi.validate(user, schema)
