@@ -3,7 +3,6 @@ const config = require('config')
 const morgan = require('morgan')
 const express = require('express')
 const cors = require('cors')
-const helmet = require('helmet')
 // const logger = require('./utilities/logger')
 
 if (!config.get('jwtPrivateKey')) {
@@ -12,12 +11,12 @@ if (!config.get('jwtPrivateKey')) {
 }
 
 const app = express()
-app.use(helmet())
 app.use(cors())
 app.use(morgan('tiny'))
 
 require('./startup/db')()
 require('./startup/routes')(app)
+require('./startup/prod')(app)
 
 // app.use(express.static('public')) // static files
 
