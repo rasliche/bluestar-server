@@ -4,8 +4,12 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "./node_modules/nodemon/bin/nodemon.js index.js",
-    "test": "jest --watchAll --verbose"
+    "dev": "./node_modules/nodemon/bin/nodemon.js index.js",
+    "test": "jest --watchAll --verbose",
+    "start": "node index.js"
+  },
+  "engines": {
+    "node": "9.5.0"
   },
   "keywords": [],
   "author": "",
