@@ -1,3 +1,4 @@
 {
-    "jwtPrivateKey": "bluestar_private_key"
+    "jwtPrivateKey": "bluestar_private_key",
+    "db": "bluestar_db"
 }
