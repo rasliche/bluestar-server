@@ -16,7 +16,7 @@ app.use((req, res, next) => {
 })
 
 app.use('/api/users/', userRoutes)
-app.use('/api/operator/', operatorRoutes)
+app.use('/api/operators/', operatorRoutes)
 app.use('/api/news/', newsRoutes)
 
 mongoose.connect('mongodb://localhost:27017/bluestar')
