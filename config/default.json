@@ -1,4 +1,0 @@
-{
-    "jwtPrivateKey": "JWTPRIVATEKEY",
-    "db": "mongodb://localhost/bluestar"
-}
