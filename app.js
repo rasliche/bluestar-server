@@ -1,6 +1,8 @@
 const express = require('express')
+const mongoose = require('mongoose')
+
 const userRoutes = require('./routes/users')
-const shopsRoutes = require('./routes/shops')
+const operatorRoutes = require('./routes/operators')
 const newsRoutes = require('./routes/news')
 
 const app = express()
@@ -14,7 +16,11 @@ app.use((req, res, next) => {
 })
 
 app.use('/api/users/', userRoutes)
-app.use('/api/shops/', shopsRoutes)
+app.use('/api/operator/', operatorRoutes)
 app.use('/api/news/', newsRoutes)
 
-app.listen(3000)
+mongoose.connect('mongodb://localhost:27017/bluestar')
+    .then(result => {
+        app.listen(3000)
+    })
+    .catch(err => console.log(err))
