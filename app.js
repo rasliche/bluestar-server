@@ -2,6 +2,7 @@ const express = require('express')
 const mongoose = require('mongoose')
 
 const userRoutes = require('./routes/users')
+const quizRoutes = require('./routes/quizzes')
 const operatorRoutes = require('./routes/operators')
 const newsRoutes = require('./routes/news')
 
@@ -16,6 +17,7 @@ app.use((req, res, next) => {
 })
 
 app.use('/api/users/', userRoutes)
+app.use('/api/quizzes/', quizRoutes)
 app.use('/api/operators/', operatorRoutes)
 app.use('/api/news/', newsRoutes)
 
