@@ -1,4 +1,5 @@
 const mongoose = require('mongoose')
+const slug = require('slugs')
 
 const operatorSchema = new mongoose.Schema({
     name: {
