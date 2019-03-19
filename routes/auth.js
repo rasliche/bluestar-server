@@ -15,6 +15,7 @@ function validateLogin(user) {
 }
 
 
+router.post('/login', async (req, res, next) => {
     const { error } = validateLogin(req.body)
     if (error) return res.status(400).send(error.details[0].message)
 
@@ -30,6 +31,7 @@ function validateLogin(user) {
 })
 
 router.post('/logout', async (req, res, next) => {
+    res.send('Logged out!')
 })
 
 module.exports = router
