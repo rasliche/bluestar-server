@@ -3,6 +3,8 @@ const router = express.Router()
 const Joi = require('joi')
 const { User } = require('../models/user')
 const bcrypt = require('bcrypt') // for comparing passwords
+const jwt = require('jsonwebtoken')
+
 function validateLogin(user) {
     const schema = {
         email: Joi.string().min(5).max(255).required().email(),
@@ -22,6 +24,12 @@ function validateLogin(user) {
     const validPassword = await bcrypt.compare(req.body.password, user.password)
     if (!validPassword) return res.status(400).send('Invalid email or password.')
 
+    const token = jwt.sign({ _id: user._id }, 'bluestarsecret')
+
+    res.send(token)
+})
+
+router.post('/logout', async (req, res, next) => {
 })
 
 module.exports = router
