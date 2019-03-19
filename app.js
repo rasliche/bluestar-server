@@ -5,6 +5,7 @@ const userRoutes = require('./routes/users')
 const quizRoutes = require('./routes/quizzes')
 const operatorRoutes = require('./routes/operators')
 const newsRoutes = require('./routes/news')
+const authRoutes = require('./routes/auth')
 
 const app = express()
 app.use(express.json())
@@ -20,6 +21,7 @@ app.use('/api/users/', userRoutes)
 app.use('/api/quizzes/', quizRoutes)
 app.use('/api/operators/', operatorRoutes)
 app.use('/api/news/', newsRoutes)
+app.use('/api/auth/', authRoutes)
 
 mongoose.connect('mongodb://localhost:27017/bluestar')
     .then(result => {
