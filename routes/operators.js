@@ -1,9 +1,10 @@
 const express = require('express')
 const { Operator } = require('../models/operator.js')
+const auth = require('../middleware/auth.js')
 
 const router = express.Router()
 
-router.get('/', async (req, res, next) => {
+router.get('/', [auth], async (req, res, next) => {
     const operators = await Operator.find()
     res.send(operators)
 })
