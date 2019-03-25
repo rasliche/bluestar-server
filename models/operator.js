@@ -13,9 +13,8 @@ const operatorSchema = new mongoose.Schema({
         type: String,
         default: "pw"
     },
-    logoUrl: {
-        type: String
-    },
+    programs: [ String ],
+    moderators: [ mongoose.SchemaTypes.ObjectId ]
 })
 
 // TODO: pre('save') hook to create slug field
