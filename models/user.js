@@ -22,6 +22,20 @@ const userSchema = new mongoose.Schema({
         minlength: 5,
         maxlength: 1024
     },
+    operators: [
+        {
+            name: { type: String },
+            _id: { type: mongoose.SchemaTypes.ObjectId },
+            moderator: Boolean
+        }
+    ],
+    quizScores: [
+        {
+            quizID: mongoose.SchemaTypes.ObjectId,
+            quizName: String,
+            score: Number
+        }
+    ],
     isAdmin: {
         type: Boolean,
         default: false,
@@ -34,7 +48,8 @@ userSchema.methods.generateAuthToken = function() {
         name: this.name,
         email: this.email,
         isAdmin: this.isAdmin
-    }, 'bluestarsecret')
+    }, 'bluestarsecret',
+    { expiresIn: '1h' })
     return token
 }
 
