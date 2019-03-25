@@ -1,15 +1,15 @@
 const express = require('express')
-const { Operator } = require('../models/operator.js')
-const auth = require('../middleware/auth.js')
+const { Operator } = require('../models/operator')
+const auth = require('../middleware/authenticated')
 
 const router = express.Router()
 
-router.get('/', [auth], async (req, res, next) => {
+router.get('/', async (req, res, next) => {
     const operators = await Operator.find().select('-password')
     res.send(operators)
 })
 
-router.get('/:slug', [auth], async (req, res, next) => {
+router.get('/:slug', async (req, res, next) => {
     const operator = await Operator.findOne({ slug: req.params.slug }).select('-password')
     res.send(operator)
 })

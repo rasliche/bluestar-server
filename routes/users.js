@@ -3,10 +3,21 @@ const router = express.Router()
 const { User, validateUser } = require('../models/user.js')
 const bcrypt = require('bcrypt')
 const _ = require('lodash')
+const auth = require('../middleware/authenticated')
 
-router.get('/', async (req, res, next) => {
+router.get('/', [auth], async (req, res, next) => {
     const users = await User.find()
     res.send(users)
+})
+
+router.get('/me', [auth], async (req, res, next) => {
+    const { token } = req
+    console.log("Token at /me:", token)
+    let user = await User.findById({ _id: token._id })
+    user = _.pick(user, ['name', 'email', '_id', 'isAdmin'])
+    console.log("User:", user)
+    console.log("Token:", token)
+    res.send({ user, token })
 })
 
 router.post('/', async (req, res, next) => {

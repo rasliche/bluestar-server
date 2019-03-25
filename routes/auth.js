@@ -27,13 +27,9 @@ router.post('/login', async (req, res, next) => {
     if (!validPassword) return res.status(400).send('Invalid email or password.')
 
     const token = user.generateAuthToken()
-    user = _.pick(user, ['name', 'email', '_id', 'isAdmin'])
+    user = _.pick(user, ['name', 'email', '_id', 'isAdmin', 'operators', 'quizScores'])
     
     res.send({ user, token })
-})
-
-router.post('/logout', async (req, res, next) => {
-    res.send('Logged out!')
 })
 
 module.exports = router
