@@ -23,8 +23,15 @@ app.use('/api/operators/', operatorRoutes)
 app.use('/api/news/', newsRoutes)
 app.use('/api/auth/', authRoutes)
 
+app.use((error, req, res, next) => {
+    console.log(error)
+    const status = error.statusCode || 500
+    const message = error.message
+    res.status(status).json({ message: message })
+})
+
 mongoose.connect('mongodb://localhost:27017/bluestar')
     .then(result => {
-        app.listen(3000)
+        app.listen(process.env.PORT || 3000)
     })
     .catch(err => console.log(err))

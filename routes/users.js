@@ -12,11 +12,12 @@ router.get('/', [auth], async (req, res, next) => {
 
 router.get('/me', [auth], async (req, res, next) => {
     const { token } = req
-    console.log("Token at /me:", token)
     let user = await User.findById({ _id: token._id })
+    if (!user) {
+        const error = new Error('No user found with current jwt.')
+        error.statusCode = 404
+    }
     user = _.pick(user, ['name', 'email', '_id', 'isAdmin'])
-    console.log("User:", user)
-    console.log("Token:", token)
     res.send({ user, token })
 })
 
