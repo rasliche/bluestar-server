@@ -11,12 +11,16 @@ const operatorSchema = new mongoose.Schema({
     },
     password: {
         type: String,
-        default: "pw"
+        default: "scuba"
     },
     programs: [ String ],
-    moderators: [ mongoose.SchemaTypes.ObjectId ]
+    managers: [ mongoose.SchemaTypes.ObjectId ]
 })
 
 // TODO: pre('save') hook to create slug field
+operatorSchema.pre('save', function(next) {
+    this.slug = slug(this.name)
+    next()
+})
 
 module.exports.Operator = mongoose.model('Operator', operatorSchema)
