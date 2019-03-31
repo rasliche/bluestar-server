@@ -30,7 +30,7 @@ app.use((error, req, res, next) => {
     res.status(status).json({ message: message })
 })
 
-mongoose.connect('mongodb://localhost:27017/bluestar')
+mongoose.connect(process.env.MONGO_DB_URI || 'mongodb://localhost:27017/bluestar')
     .then(result => {
         app.listen(process.env.PORT || 3000)
     })
