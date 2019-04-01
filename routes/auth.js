@@ -8,7 +8,7 @@ const _ = require('lodash')
 function validateLogin(user) {
     const schema = {
         email: Joi.string().min(5).max(255).required().email(),
-        password: Joi.string().min(5).max(255).required()
+        // password: Joi.string().min(5).max(255).required()
     }
 
     return Joi.validate(user, schema)
@@ -24,12 +24,12 @@ router.post('/login', async (req, res, next) => {
             throw error
         }
     
-        const { email, password } = req.body
+        const { email } = req.body // { password }
         let user = await User.findOne({ email: email })
         if (!user) return res.status(400).send('Invalid email or password.')
     
-        const validPassword = await bcrypt.compare(password, user.password)
-        if (!validPassword) return res.status(400).send('Invalid email or password.')
+        // const validPassword = await bcrypt.compare(password, user.password)
+        // if (!validPassword) return res.status(400).send('Invalid email or password.')
     
         const token = user.generateAuthToken()
         user = _.pick(user, ['name', 'email', '_id', 'isAdmin', 'operators', 'quizScores'])
