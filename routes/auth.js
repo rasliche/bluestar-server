@@ -16,20 +16,28 @@ function validateLogin(user) {
 
 
 router.post('/login', async (req, res, next) => {
-    const { error } = validateLogin(req.body)
-    if (error) return res.status(400).send(error)
-
-    const { email, password } = req.body
-    let user = await User.findOne({ email: email })
-    if (!user) return res.status(400).send('Invalid email or password.')
-
-    const validPassword = await bcrypt.compare(password, user.password)
-    if (!validPassword) return res.status(400).send('Invalid email or password.')
-
-    const token = user.generateAuthToken()
-    user = _.pick(user, ['name', 'email', '_id', 'isAdmin', 'operators', 'quizScores'])
+    try {
+        const { error } = validateLogin(req.body)
+        if (error) {
+            const error = new Error("Invalid login data.")
+            error.statusCode = 400
+            throw error
+        }
     
-    res.send({ user, token })
+        const { email, password } = req.body
+        let user = await User.findOne({ email: email })
+        if (!user) return res.status(400).send('Invalid email or password.')
+    
+        const validPassword = await bcrypt.compare(password, user.password)
+        if (!validPassword) return res.status(400).send('Invalid email or password.')
+    
+        const token = user.generateAuthToken()
+        user = _.pick(user, ['name', 'email', '_id', 'isAdmin', 'operators', 'quizScores'])
+        
+        res.send({ user, token })
+    } catch (e) {
+        console.log(e)
+    }
 })
 
 module.exports = router
