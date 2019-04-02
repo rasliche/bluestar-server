@@ -52,7 +52,7 @@ userSchema.methods.generateAuthToken = function() {
         isAdmin: this.isAdmin
         }, 
         'bluestarsecret',
-        { expiresIn: '1h' })
+        { expiresIn: '2h' })
     return token
 }
 
