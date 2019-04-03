@@ -35,9 +35,20 @@ router.post('/', async (req, res, next) => {
     await user.save()
 
     const token = user.generateAuthToken()
-    user = _.pick(user, ['name', 'email', '_id', 'isAdmin'])
+    user = _.pick(user, ['name', 'email', '_id', 'quizScores', 'operators', 'isAdmin'])
 
     res.send({ user, token })
+})
+
+router.put('/:id', async (req, res, next) => {
+    // Look up user
+    // If not existing, return 404 - Resource not found
+    let user = await User.findById(req.params.id)
+    if (!user) return res.status(404).send("The user with the given ID was not found.")
+
+    // Validate
+    // If invalid, return 400 - Bad request
+    res.send("updated a user - but not reall")
 })
 
 module.exports = router
