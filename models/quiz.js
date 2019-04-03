@@ -8,12 +8,16 @@ const quizSchema = new mongoose.Schema({
     description: {
         type: String,
     },
+    passingScorePercent: {
+        type: Number
+    },
     questions: [
         {
             text: String,
             answers: [
                 { text: String, isRight: Boolean }
-            ]
+            ],
+            theMoreYouKnow: String,
         }
     ],
     lessonSlug: String
