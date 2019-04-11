@@ -1,10 +1,12 @@
 const mongoose = require('mongoose')
 const slug = require('slugs')
+const Joi = require('joi')
 
 const operatorSchema = new mongoose.Schema({
     name: {
         type: String,
-        required: true
+        required: true,
+        unique: true
     },
     slug: {
         type: String
@@ -23,4 +25,15 @@ operatorSchema.pre('save', function(next) {
     next()
 })
 
+function validateOperator(operator) {
+    const schema = {
+        name: Joi.string().required(),
+        password: Joi.string(),
+        programs: Joi.array(),
+        managers: Joi.array(),
+    }
+    return Joi.validate(operator, schema)
+}
+
 module.exports.Operator = mongoose.model('Operator', operatorSchema)
+module.exports.validateOperator = validateOperator

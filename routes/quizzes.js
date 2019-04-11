@@ -9,12 +9,14 @@ router.get('/', async (req, res, next) => {
 })
 
 router.post('/', async (req, res, next) => {
-    let { title, description, lessonSlug } = req.body
     let quiz = new Quiz({
-        title,
-        description,
-        lessonSlug
+        title: req.body.title,
+        description: req.body.description,
+        passingScorePercent: req.body.passingScorePercent,
+        questions: req.body.questions,
+        lessonId: req.body.lessonId
     })
+    
     await quiz.save()
     res.status(201).send(quiz)
 })

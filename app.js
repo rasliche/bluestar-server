@@ -1,10 +1,12 @@
 const express = require('express')
 const mongoose = require('mongoose')
 
-const userRoutes = require('./routes/users')
-const quizRoutes = require('./routes/quizzes')
-const operatorRoutes = require('./routes/operators')
-const newsRoutes = require('./routes/news')
+const usersRoutes = require('./routes/users')
+const quizzesRoutes = require('./routes/quizzes')
+const operatorsRoutes = require('./routes/operators')
+const lessonsRoutes = require('./routes/lessons')
+const postsRoutes = require('./routes/posts')
+const programsRoutes = require('./routes/programs')
 const authRoutes = require('./routes/auth')
 
 const app = express()
@@ -17,10 +19,12 @@ app.use((req, res, next) => {
     next()
 })
 
-app.use('/api/users/', userRoutes)
-app.use('/api/quizzes/', quizRoutes)
-app.use('/api/operators/', operatorRoutes)
-app.use('/api/news/', newsRoutes)
+app.use('/api/users/', usersRoutes)
+app.use('/api/quizzes/', quizzesRoutes)
+app.use('/api/operators/', operatorsRoutes)
+app.use('/api/lessons/', lessonsRoutes)
+app.use('/api/posts/', postsRoutes)
+app.use('/api/programs/', programsRoutes)
 app.use('/api/auth/', authRoutes)
 
 app.use((error, req, res, next) => {

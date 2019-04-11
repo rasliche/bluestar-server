@@ -16,24 +16,30 @@ const userSchema = new mongoose.Schema({
         minlength: 5,
         maxlength: 255
     },
-    // password: {
-    //     type: String,
-    //     required: true,
-    //     minlength: 5,
-    //     maxlength: 1024
-    // },
+    password: {
+        type: String,
+        required: true,
+        minlength: 5,
+        maxlength: 1024
+    },
     operators: [
         {
             name: { type: String },
             _id: { type: mongoose.SchemaTypes.ObjectId },
-            moderator: Boolean
+            moderator: {
+                type: Boolean,
+                default: false
+            }
         }
     ],
     quizScores: [
         {
             quizID: mongoose.SchemaTypes.ObjectId,
             quizName: String,
-            score: Number
+            score: {
+                type: Number,
+                default: 0
+            }
         }
     ],
     isAdmin: {
@@ -45,10 +51,10 @@ const userSchema = new mongoose.Schema({
 userSchema.methods.generateAuthToken = function() {
     const token = jwt.sign({
         _id: this._id,
-        name: this.name,
-        email: this.email,
-        operators: this.operators,
-        quizScores: this.quizScores,
+        // name: this.name,
+        // email: this.email,
+        // operators: this.operators,
+        // quizScores: this.quizScores,
         isAdmin: this.isAdmin
         }, 
         'bluestarsecret',
@@ -62,7 +68,6 @@ function validateUser(user) {
         email: Joi.string().min(5).max(255).required().email(),
         // password: Joi.string().min(5).max(255)
     }
-
     return Joi.validate(user, schema)
 }
 

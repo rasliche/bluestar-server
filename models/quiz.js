@@ -1,4 +1,5 @@
 const mongoose = require('mongoose')
+const Joi = require('joi')
 
 const quizSchema = new mongoose.Schema({
     title: {
@@ -20,7 +21,9 @@ const quizSchema = new mongoose.Schema({
             theMoreYouKnow: String,
         }
     ],
-    lessonSlug: String
+    lessonId: {
+        type: mongoose.SchemaTypes.ObjectId
+    }
 })
 
 module.exports.Quiz = mongoose.model('Quiz', quizSchema)
