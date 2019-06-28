@@ -26,16 +26,16 @@ const userSchema = new mongoose.Schema({
         {
             name: { type: String },
             _id: { type: mongoose.SchemaTypes.ObjectId },
-            moderator: {
+            manager: {
                 type: Boolean,
                 default: false
             }
         }
     ],
-    quizScores: [
+    lessonScores: [
         {
-            quizID: mongoose.SchemaTypes.ObjectId,
-            quizName: String,
+            lessonSlug: String,
+            lessonName: String,
             score: {
                 type: Number,
                 default: 0
@@ -51,10 +51,10 @@ const userSchema = new mongoose.Schema({
 userSchema.methods.generateAuthToken = function() {
     const token = jwt.sign({
         _id: this._id,
-        // name: this.name,
-        // email: this.email,
-        // operators: this.operators,
-        // quizScores: this.quizScores,
+        name: this.name,
+        email: this.email,
+        operators: this.operators,
+        lessonScores: this.lessonScores,
         isAdmin: this.isAdmin
         }, 
         'bluestarsecret',
