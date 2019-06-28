@@ -1,7 +1,7 @@
 const express = require('express')
 const router = express.Router()
 const { User, validateUser } = require('../models/user.js')
-// const bcrypt = require('bcrypt')
+const bcrypt = require('bcrypt')
 const _ = require('lodash')
 const auth = require('../middleware/authenticated')
 
@@ -46,6 +46,8 @@ router.post('/', async (req, res, next) => {
     await user.save()
     
     const token = user.generateAuthToken()
+    user = _.pick(user, ['name', 'email', '_id', 'isAdmin', 'operators', 'quizScores'])
+
     res.send({ user, token })
 })
 
