@@ -51,15 +51,18 @@ router.post('/', async (req, res, next) => {
     res.send({ user, token })
 })
 
-router.put('/:id', async (req, res, next) => {
+router.put('/:id', [auth], async (req, res, next) => {
     // Look up user
     // If not existing, return 404 - Resource not found
-    let user = await User.findById(req.params.id)
+    let user = await User.findById(req.params.id).select('-password')
     if (!user) return res.status(404).send("The user with the given ID was not found.")
-
+    
+    console.log(req.body.record)
+    user.lessonScores.push(req.body.record)
+    await user.save()
     // Validate
     // If invalid, return 400 - Bad request
-    res.send("updated a user - but not reall")
+    res.send(user)
 })
 
 module.exports = router
