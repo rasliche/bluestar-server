@@ -51,7 +51,8 @@ router.post('/', async (req, res, next) => {
     res.send({ user, token })
 })
 
-router.put('/:id', [auth], async (req, res, next) => {
+router.put('/:id/records', [auth], async (req, res, next) => {
+    const { record } = req.body
     // Look up user
     // If not existing, return 404 - Resource not found
     let user = await User.findById(req.params.id).select('-password')
