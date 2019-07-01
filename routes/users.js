@@ -58,12 +58,22 @@ router.put('/:id/records', [auth], async (req, res, next) => {
     let user = await User.findById(req.params.id).select('-password')
     if (!user) return res.status(404).send("The user with the given ID was not found.")
     
-    console.log(req.body.record)
-    user.lessonScores.push(req.body.record)
-    await user.save()
+    let lessonRecord = user.lessonScores.find(r => r.lessonSlug === record.lessonSlug)
+    if (!lessonRecord) { 
+        user.lessonScores.push(record)
+        await user.save()
+        return res.send(user)
+    } else if (record.score > lessonRecord.score) {
+        lessonRecord.score = record.score
+        await user.save()
+        return res.send(user)
+    } else {
+        // nothing to update
+        return res.send(user)
+    }
+
     // Validate
     // If invalid, return 400 - Bad request
-    res.send(user)
 })
 
 module.exports = router
