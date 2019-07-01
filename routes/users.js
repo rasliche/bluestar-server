@@ -23,7 +23,7 @@ router.get('/me', [auth], async (req, res, next) => {
         error.statusCode = 404
         throw error
     }
-    user = _.pick(user, ['name', 'email', '_id', 'isAdmin'])
+    user = _.pick(user, ['name', 'email', '_id', 'isAdmin', 'operators', 'lessonScores'])
     res.send({ user, token })
 })
 
@@ -46,7 +46,7 @@ router.post('/', async (req, res, next) => {
     await user.save()
     
     const token = user.generateAuthToken()
-    user = _.pick(user, ['name', 'email', '_id', 'isAdmin', 'operators', 'quizScores'])
+    user = _.pick(user, ['name', 'email', '_id', 'isAdmin', 'operators', 'lessonScores'])
 
     res.send({ user, token })
 })
