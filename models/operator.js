@@ -13,7 +13,7 @@ const operatorSchema = new mongoose.Schema({
     },
     password: {
         type: String,
-        default: "scuba"
+        default: "floridakeys"
     },
     programs: [ String ],
     managers: [ mongoose.SchemaTypes.ObjectId ]
