@@ -11,20 +11,21 @@ router.get('/', async (req, res, next) => {
 })
 
 router.get('/me', [auth], async (req, res, next) => {
-    const { token } = req
-    if (!token) {
+    const { decodedToken } = req
+    if (!decodedToken) {
         const error = new Error('No authorization token provided.')
         error.statusCode = 401
         throw error
     } 
-    let user = await User.findById({ _id: token._id })
+    const user = await User.findById({ _id: decodedToken._id })
     if (!user) {
         const error = new Error('No user found with current jwt.')
         error.statusCode = 404
         throw error
     }
-    user = _.pick(user, ['name', 'email', '_id', 'isAdmin', 'operators', 'lessonScores'])
-    res.send({ user, token })
+    const token = user.generateAuthToken()
+    const userData = _.pick(user, ['name', 'email', '_id', 'isAdmin', 'operators', 'lessonScores'])
+    res.send({ user: userData, token })
 })
 
 router.post('/', async (req, res, next) => {
