@@ -16,11 +16,7 @@ function validateLogin(user) {
 
 router.post('/login', async (req, res, next) => {
     const { error } = validateLogin(req.body)
-    if (error) {
-        const error = new Error("Invalid login data.")
-        error.statusCode = 400
-        throw error
-    }
+    if (error) return res.status(400).send('Invalid email or password.')
 
     const { email, password } = req.body
     let user = await User.findOne({ email: email })
