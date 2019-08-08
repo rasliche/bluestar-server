@@ -51,10 +51,10 @@ const userSchema = new mongoose.Schema({
 userSchema.methods.generateAuthToken = function() {
     const token = jwt.sign({
         _id: this._id,
-        name: this.name,
-        email: this.email,
-        operators: this.operators,
-        lessonScores: this.lessonScores,
+        // name: this.name,
+        // email: this.email,
+        // operators: this.operators,
+        // lessonScores: this.lessonScores,
         isAdmin: this.isAdmin
         }, 
         'bluestarsecret',
