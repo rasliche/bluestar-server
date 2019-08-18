@@ -8,14 +8,14 @@ module.exports = (req, res, next) => {
         throw error
     }
 
-    const token = req.get('Authorization').split(' ')[1] // 'Bearer: jwtTokenString'
+    const token = authHeader.split(' ')[1] // 'Bearer: jwtTokenString'
     jwt.verify(token, 'bluestarsecret', (error, decodedToken) => {
         if (error) {
             const error = new Error('User authorization token is not able to be verified.')
             error.statusCode = 401
             throw error
         }
-        req.decodedToken = decodedToken
+        req.token = decodedToken
         console.log(decodedToken)
     })
     next()
