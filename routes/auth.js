@@ -16,14 +16,26 @@ function validateLogin(user) {
 
 router.post('/login', async (req, res, next) => {
     const { error } = validateLogin(req.body)
-    if (error) return res.status(400).send('Invalid email or password.')
+    if (error) {
+        const error = new Error('Invalid email or password.')
+        error.statusCode = 400
+        throw error
+    }
 
     const { email, password } = req.body
     let user = await User.findOne({ email: email })
-    if (!user) return res.status(400).send('Invalid email or password.')
+    if (!user) {
+        const error = new Error('Invalid email or password.')
+        error.statusCode = 400
+        throw error
+    }
 
     const validPassword = await bcrypt.compare(password, user.password)
-    if (!validPassword) return res.status(400).send('Invalid email or password.')
+    if (!validPassword) {
+        const error = new Error('Invalid email or password.')
+        error.statusCode = 400
+        throw error
+    }
 
     const token = user.generateAuthToken()
     user = _.pick(user, ['name', 'email', '_id', 'isAdmin', 'operators', 'lessonScores'])
