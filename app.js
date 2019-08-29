@@ -26,13 +26,8 @@ app.use((req, res, next) => {
     next()
 })
 
-app.use('/api/users/', usersRoutes)
-app.use('/api/quizzes/', quizzesRoutes)
-app.use('/api/operators/', operatorsRoutes)
-app.use('/api/lessons/', lessonsRoutes)
-app.use('/api/posts/', postsRoutes)
-app.use('/api/programs/', programsRoutes)
-app.use('/api/auth/', authRoutes)
+require('./startup/routes')(app)
+require('./startup/db')()
 
 app.use((error, req, res, next) => {
     const status = error.statusCode || 500
