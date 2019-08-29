@@ -6,7 +6,8 @@ const operatorSchema = new mongoose.Schema({
     name: {
         type: String,
         required: true,
-        unique: true
+        unique: true,
+        maxlength: 50,
     },
     slug: {
         type: String
@@ -27,7 +28,7 @@ operatorSchema.pre('save', function(next) {
 
 function validateOperator(operator) {
     const schema = {
-        name: Joi.string().required(),
+        name: Joi.string().max(50).required(),
         password: Joi.string(),
         programs: Joi.array(),
         managers: Joi.array(),
