@@ -1,6 +1,6 @@
 {
     "name": "APP_NAME",
-    "port": "PORT",
+    "port": "$PORT",
     "db": "MONGO_DB_URI",
     "jwtPrivateKey": "JWT_PRIVATE_KEY"
 }
