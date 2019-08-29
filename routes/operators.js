@@ -11,10 +11,11 @@ router.get('/', async (req, res, next) => {
 
 router.get('/:slug', async (req, res, next) => {
     const operator = await Operator.findOne({ slug: req.params.slug })
+    if (!operator) { return res.status(404).send({ message: 'No operator found.'})}
     res.send(operator)
 })
 
-router.post('/', async (req, res, next) => {
+router.post('/', auth, async (req, res, next) => {
     const { error } = validateOperator(req.body)
     if (error) return res.status(400).send(error.details[0].message)
 
