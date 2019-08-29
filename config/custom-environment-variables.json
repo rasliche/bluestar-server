@@ -1,0 +1,6 @@
+{
+    "name": "FKNMS Blue Star Online Training",
+    "port": "PORT",
+    "db": "MONGO_DB_URI",
+    "jwtPrivateKey": "JWT_PRIVATE_KEY"
+}
