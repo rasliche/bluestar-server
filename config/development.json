@@ -3,5 +3,5 @@
     "mail": {
         "host": "dev-mail-server"
     },
-    "mongo_db_uri": "mongodb://localhost:27017/bluestar"
+    "mongo_db_uri": "mongodb://localhost:27017/bluestar_development"
 }
