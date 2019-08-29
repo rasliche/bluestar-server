@@ -1,5 +1,5 @@
 const mongoose = require('mongoose')
-const slug = require('slugs')
+const slug = require('slug')
 const Joi = require('joi')
 
 const operatorSchema = new mongoose.Schema({
