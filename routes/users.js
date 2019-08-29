@@ -13,7 +13,7 @@ router.get('/', async (req, res, next) => {
 router.get('/me', [auth], async (req, res, next) => {
     let { token } = req
     if (!token) {
-        const error = new Error('No authorization token provided.')
+        const error = new Error('No authentication token provided.')
         error.statusCode = 401
         throw error
     }
