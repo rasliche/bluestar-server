@@ -1,3 +1,4 @@
+const config = require('config')
 const mongoose = require('mongoose')
 const Joi = require('joi')
 const jwt = require('jsonwebtoken')
@@ -57,7 +58,7 @@ userSchema.methods.generateAuthToken = function() {
         // lessonScores: this.lessonScores,
         isAdmin: this.isAdmin
         }, 
-        'bluestarsecret',
+        config.get('jwtPrivateKey'),
         { expiresIn: '2h' })
     return token
 }
