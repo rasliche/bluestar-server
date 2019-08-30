@@ -8,7 +8,7 @@ describe('auth middleware', () => {
     })
 
     afterEach(async () => {
-        await Operator.remove({})
+        await Operator.deleteMany({})
         server.close()
     })
 
