@@ -16,8 +16,8 @@ describe('/api/operators', () => {
     })
     afterEach(async () => {
         server.close()
-        await Operator.remove({})
-        await User.remove({})
+        await Operator.deleteMany({})
+        await User.deleteMany({})
     })
 
     describe('GET /', () => {
