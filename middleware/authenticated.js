@@ -18,7 +18,6 @@ module.exports = (req, res, next) => {
             throw error
         }
         req.token = decodedToken
-        console.log(decodedToken)
     })
     next()
 }
