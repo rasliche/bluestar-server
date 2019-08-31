@@ -5,7 +5,7 @@ const operatorsRoutes = require('../routes/operators')
 const lessonsRoutes = require('../routes/lessons')
 const postsRoutes = require('../routes/posts')
 const programsRoutes = require('../routes/programs')
-const authRoutes = require('../routes/auth')
+const { router: authRoutes } = require('../routes/auth')
 
 module.exports = function(app) {
     app.use(express.json())
@@ -19,7 +19,7 @@ module.exports = function(app) {
 
     app.use((error, req, res, next) => {
         const status = error.statusCode || 500
-        const message = error.message
-        res.status(status).json({ message: message })
+        const message = error.message || "Server error."
+        res.status(status).send(message)
     })
 }
