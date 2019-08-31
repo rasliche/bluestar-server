@@ -1,5 +1,5 @@
 const request = require('supertest')
-const { User } = require('../../models/user')
+const { User, validateUser } = require('../../models/user')
 let server
 
 describe('/api/users', () => {
@@ -7,8 +7,8 @@ describe('/api/users', () => {
         server = require('../../app')
     })
     afterEach(async () => {
-        server.close()
         await User.deleteMany({})
+        server.close()
     })
 
     describe('GET /', () => {
@@ -27,15 +27,63 @@ describe('/api/users', () => {
 
     describe('GET /me', () => {
         it('should return the logged in user', async () => {
-            const newUser = await new User({
+            const user = await new User({
                 name: 'a',
                 email: 'a@a.com',
                 password: 'password'
             }).save()
-            const token = newUser.generateAuthToken()
+            const token = user.generateAuthToken()
             const response = await request(server)
                 .get('/api/users/me')
                 .set('Authorization', `Bearer: ${token}`)
+            expect(response.body).toHaveProperty('token')
+            expect(response.body).toHaveProperty('user.name')
+            expect(response.body).toHaveProperty('user.email')
+            expect(response.body).toHaveProperty('user._id')
+            expect(response.body).toHaveProperty('user.isAdmin')
+            expect(response.body).toHaveProperty('user.operators')
+            expect(response.body).toHaveProperty('user.lessonScores')
+        })
+
+        it('should return 404 if a user is not found for the token ID', async () => {
+            const user = await new User({
+                name: 'a',
+                email: 'a@a.com',
+                password: 'password'
+            })
+            const token = user.generateAuthToken()
+            const response = await request(server)
+                .get('/api/users/me')
+                .set('Authorization', `Bearer: ${token}`)
+            expect(response.status).toBe(404)
+            expect(response.text).toBe("No user found with current jwt.")
+        })
+    })
+
+    describe('POST /', () => {
+        it('should return 400 if user already exists', async () => {
+            const user = {
+                name: 'a',
+                email: 'a@a.com',
+                password: 'password'
+            }
+            await new User(user).save()
+            const response = await request(server)
+                .post('/api/users')
+                .send(user)
+                expect(response.status).toBe(400)
+                expect(response.text).toBe("User already exists.")
+        })
+
+        it('should return a user and token if user is created successfully', async () => {
+            const user = {
+                name: 'a',
+                email: 'a@a.com',
+                password: 'password'
+            }
+            const response = await request(server)
+                .post('/api/users')
+                .send(user)
             expect(response.body).toHaveProperty('token')
             expect(response.body).toHaveProperty('user.name')
             expect(response.body).toHaveProperty('user.email')
