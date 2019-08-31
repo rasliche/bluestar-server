@@ -18,11 +18,11 @@ router.get('/me', [auth], async (req, res, next) => {
     //     throw error
     // }
     const user = await User.findById({ _id: token._id })
-    if (!user) {
-        const error = new Error('No user found with current jwt.')
-        error.statusCode = 404
-        throw error
-    }
+    if (!user) { res.status(404).send('No user found with current jwt.') }
+    //     const error = new Error('No user found with current jwt.')
+    //     error.statusCode = 404
+    //     throw error
+    // }
     token = user.generateAuthToken()
     const userData = _.pick(user, ['name', 'email', '_id', 'isAdmin', 'operators', 'lessonScores'])
     res.send({ user: userData, token })
@@ -31,10 +31,10 @@ router.get('/me', [auth], async (req, res, next) => {
 router.post('/', async (req, res, next) => {
     // TODO: normalize email
     const { error } = validateUser(req.body)
-    if (error) return res.status(400).send(error.details[0].message)
+    if (error) { return res.status(400).send("Invalid user data received.") }
 
     let user = await User.findOne({ email: req.body.email })
-    if (user) return res.status(400).send("User already exists")
+    if (user) { return res.status(400).send("User already exists.") }
 
     user = new User({
         name: req.body.name,
