@@ -106,7 +106,19 @@ describe('/api/users', () => {
         })
 
         it('should store a hashed password for user', async () => {
+            const user = {
+                name: 'a',
+                email: 'a@a.com',
+                password: 'password'
+            }
+            
+            const { 'user.id': userId } = await request(server)
+                .post('/api/users')
+                .send(user)
 
+            const userWithPassword = User.findById(userId)
+
+            expect(userWithPassword.password).not.toBe(user.password)
         })
 
         it('should return a user and token if user is created successfully', async () => {
