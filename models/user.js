@@ -20,7 +20,7 @@ const userSchema = new mongoose.Schema({
     password: {
         type: String,
         required: true,
-        minlength: 5,
+        minlength: 1,
         maxlength: 1024
     },
     operators: [
@@ -35,11 +35,21 @@ const userSchema = new mongoose.Schema({
     ],
     lessonScores: [
         {
-            lessonSlug: String,
-            lessonName: String,
+            lessonSlug: {
+                type: String,
+                required: true,
+            },
+            lessonName: {
+                type: String,
+                required: true,
+            },
             score: {
                 type: Number,
                 default: 0
+            },
+            date: {
+                type: Date,
+                default: Date.now()
             }
         }
     ],
@@ -48,6 +58,10 @@ const userSchema = new mongoose.Schema({
         default: false,
     }
 })
+
+// Method on User object that signs and returns a JSON Web Token
+// Token contains User._id, whether the user is a full Admin
+// and is no longer valid after 2 hours.
 
 userSchema.methods.generateAuthToken = function() {
     const token = jwt.sign({
@@ -62,6 +76,11 @@ userSchema.methods.generateAuthToken = function() {
         { expiresIn: '2h' })
     return token
 }
+
+// Validate that User has the required shape.
+// Used in creating new users and logging in.
+// validateUser checks the plain text password for length,
+// but the hashed password is stored in the User record.
 
 function validateUser(user) {
     const schema = {
