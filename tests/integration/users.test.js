@@ -154,4 +154,52 @@ describe('/api/users', () => {
             expect(response.body).not.toHaveProperty('user.password')
         })
     })
+
+    describe('PUT /:id/records', () => {
+        // Return 401 if client is not logged in
+        it('should return 401 if client is not logged in', () => {
+            expect(response.status).toBe(401)
+        })
+        
+        // Return 401 if id does not match attached jwt
+        it('should return 401 if given id does not match attached jwt', () => {
+            expect(response.status).toBe(401)
+        })
+
+        // Return 404 if id does not exist
+        it('should return 404 if user with given id does not exist', () => {
+            expect(response.status).toBe(404)
+        })
+
+        // Return 404 if lesson provided does not exist
+        it('should return 404 if lesson provided does not exist', () => {
+            expect(response.status).toBe(404)
+        })
+
+        // Return 400 if the lesson score is not updated
+        it('should return 400 if the lesson score is not updated', () => {
+            expect(response.status).toBe(400)
+        })
+
+        // Should return 200 if the record is updated successfully
+        it('should return 200 if the record is updated', () => {
+            expect(response.status).toBe(200)
+        })
+
+        // Should return 201 if the record is new for the user
+        it('should return 201 if the record is new for the user', () => {
+            expect(response.status).toBe(201)
+        })
+
+        // Should return the user record
+        it('should return the user record', () => {
+            expect(response.body).toHaveProperty('user')
+        })
+
+        // Should update the date of record when updating score
+        it('should update the date of record when updating score', () => {
+            expect(true).toBe(false)
+        })
+
+    })
 })
