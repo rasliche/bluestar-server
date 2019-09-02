@@ -105,6 +105,20 @@ describe('/api/users', () => {
                 expect(response.text).toBe("User already exists.")
         })
 
+        it('should return 400 if user data in body is invalid', async () => {
+            const user = {
+                name: 'a',
+                email: 'aaaa',
+                password: 'aaaa'
+            }
+            const response = await request(server)
+                .post('/api/users')
+                .send(user)
+
+            expect(response.status).toBe(400)
+            expect(response.text).toBe("Invalid user data received.")
+        })
+
         it('should store a hashed password for user', async () => {
             const user = {
                 name: 'a',
