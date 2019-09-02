@@ -28,6 +28,13 @@ router.get('/me', [auth], async (req, res, next) => {
     res.send({ user: userData, token })
 })
 
+router.get('/:id', async (req, res, next) => {
+    let user = await User.findById(req.params.id)
+    if (!user) return res.status(404).send("No user found with given ID.")
+    user = _.pick(user, ['name', 'email', '_id', 'isAdmin', 'operators', 'lessonScores'])
+    res.send(user)
+})
+
 router.post('/', async (req, res, next) => {
     // TODO: normalize email
     const { error } = validateUser(req.body)
