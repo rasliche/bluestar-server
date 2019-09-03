@@ -1,6 +1,6 @@
 const express = require('express')
 const router = express.Router()
-const { User, validateUser } = require('../models/user.js')
+const { User, validateUser, validateRecord } = require('../models/user.js')
 const bcrypt = require('bcrypt')
 const _ = require('lodash')
 const auth = require('../middleware/authenticated')
@@ -60,7 +60,8 @@ router.post('/', async (req, res, next) => {
 })
 
 router.put('/:id/records', [auth], async (req, res, next) => {
-    const { record } = req.body
+    const { error } = validateRecord(req.body) // validation found in User.js Model
+    if (error) { return res.status(400).send("Invalid record received.")}
     // Look up user
     // If not existing, return 404 - Resource not found
     let user = await User.findById(req.params.id).select('-password')
