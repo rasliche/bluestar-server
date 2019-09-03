@@ -91,5 +91,15 @@ function validateUser(user) {
     return Joi.validate(user, schema)
 }
 
+function validateRecord(record) {
+    const schema = {
+        lessonName: Joi.string().required(),
+        lessonSlug: Joi.string().required(),
+        score: Joi.number(),
+    }
+    return Joi.validate(record, schema)
+}
+
 module.exports.User = mongoose.model('User', userSchema)
 module.exports.validateUser = validateUser
+module.exports.validateRecord = validateRecord

@@ -1,6 +1,6 @@
 const express = require('express')
 const router = express.Router()
-const { User, validateUser } = require('../models/user.js')
+const { User, validateUser, validateRecord } = require('../models/user.js')
 const bcrypt = require('bcrypt')
 const _ = require('lodash')
 const auth = require('../middleware/authenticated')
@@ -60,28 +60,28 @@ router.post('/', async (req, res, next) => {
 })
 
 router.put('/:id/records', [auth], async (req, res, next) => {
-    const { record } = req.body
+    const { error } = validateRecord(req.body) // validation found in User.js Model
+    if (error) { return res.status(400).send("Invalid record received.")}
+    // Will we need to modify this to allow admin access?
+    if (req.token._id !== req.params.id) { return res.status(401).send("User does not match authorization token.")}
     // Look up user
     // If not existing, return 404 - Resource not found
     let user = await User.findById(req.params.id).select('-password')
     if (!user) return res.status(404).send("The user with the given ID was not found.")
     
-    let lessonRecord = user.lessonScores.find(r => r.lessonSlug === record.lessonSlug)
+    let lessonRecord = user.lessonScores.find(r => r.lessonSlug === req.body.lessonSlug)
     if (!lessonRecord) { 
-        user.lessonScores.push(record)
+        user.lessonScores.push(req.body)
         await user.save()
-        return res.send(user)
-    } else if (record.score > lessonRecord.score) {
-        lessonRecord.score = record.score
+        return res.status(201).send(user)
+    } else if (req.body.score > lessonRecord.score) {
+        lessonRecord.score = req.body.score
         await user.save()
-        return res.send(user)
+        return res.status(200).send(user)
     } else {
         // nothing to update
-        return res.send(user)
+        return res.status(400).send(user)
     }
-
-    // Validate
-    // If invalid, return 400 - Bad request
 })
 
 module.exports = router
