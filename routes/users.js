@@ -62,6 +62,7 @@ router.post('/', async (req, res, next) => {
 router.put('/:id/records', [auth], async (req, res, next) => {
     const { error } = validateRecord(req.body) // validation found in User.js Model
     if (error) { return res.status(400).send("Invalid record received.")}
+    if (req.token._id !== req.params.id) { return res.status(401).send("User does not match authorization token.")}
     // Look up user
     // If not existing, return 404 - Resource not found
     let user = await User.findById(req.params.id).select('-password')
