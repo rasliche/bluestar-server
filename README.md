@@ -1,5 +1,5 @@
 # bluestar-server
-This project is the server side API for a Blue Star client.
+This project is the server side API for a [Blue Star client](https://github.com/rasliche/bluestar-client).
 
 ## Technology Choices
 - [Node.js](https://nodejs.org/en/)
