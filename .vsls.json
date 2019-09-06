@@ -1,6 +1,6 @@
 {
     "$schema": "http://json.schemastore.org/vsls",
-    "gitignore":"none",
+    "gitignore":"exclude",
     "excludeFiles":[
         "config",
         "*.p12",
@@ -10,6 +10,6 @@
     ],
     "hideFiles": [
         "node_modules",
-        "config/*"
+        "config"
     ]
 }
