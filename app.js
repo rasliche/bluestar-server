@@ -1,17 +1,9 @@
 const config = require('config')
 require('express-async-errors')
-const helmet = require('helmet')
 const express = require('express')
 const app = express()
-app.use(helmet())
 
-app.use((req, res, next) => {
-    res.setHeader('Access-Control-Allow-Origin', '*')
-    res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, PATCH, DELETE')
-    res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization')
-    next()
-})
-
+require('./startup/config')(app)
 require('./startup/routes')(app)
 require('./startup/db')()
 
