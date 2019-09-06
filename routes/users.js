@@ -80,7 +80,7 @@ router.put('/:id/records', [auth], async (req, res, next) => {
         return res.status(200).send(user)
     } else {
         // nothing to update
-        return res.status(400).send(user)
+        return res.status(200).send(user)
     }
 })
 
