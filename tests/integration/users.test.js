@@ -58,7 +58,6 @@ describe('/api/users', () => {
                 .get('/api/users/me')
                 .set('Authorization', `Bearer: ${token}`)
             expect(response.status).toBe(404)
-            expect(response.text).toBe("No user found with current jwt.")
         })
     })
 
