@@ -110,12 +110,16 @@ describe('/api/operators', () => {
     })
 
     describe('DELETE /:id', () => {
-        it('should delete the shop with the given ID from the database', async () => {
-            const operator = new Operator({ name: 'shop1' }).save()
+        it('should delete the shop with the given ID from the database if JWT is an Admin', async () => {
+            const operator = await new Operator({ name: 'shop1' }).save()
 
-            const response = request(server)
+            const response = await request(server)
                 .delete(`/api/operators/${operator._id}`)
+                .set('Authorization', `Bearer: ${token}`)
+
             expect(response.status).toBe(200)
+            expect(response.body).toHaveProperty('_id')
+            expect(response.body).toHaveProperty('name', operator.name)
         })
     })
 })
