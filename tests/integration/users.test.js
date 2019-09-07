@@ -231,8 +231,8 @@ describe('/api/users', () => {
                 .set('Authorization', `Bearer: ${user.generateAuthToken()}`)
                 .send(testRecord)
 
-            expect(response1.status).toBe(400)
-            expect(response2.status).toBe(400)
+            expect(response1.status).toBe(200)
+            expect(response2.status).toBe(200)
         })
         
         // Should return 200 if the record is updated successfully
