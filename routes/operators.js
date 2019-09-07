@@ -28,4 +28,10 @@ router.post('/', auth, async (req, res, next) => {
     res.status(201).send(operator)
 })
 
+router.delete('/:id', auth, async (req, res, next) => {
+    const operator = await Operator.findByIdAndRemove(req.params.id)
+    if (!operator) return res.status(404).send("Operator with given ID not found.")
+    res.status(200).send(operator)
+})
+
 module.exports = router
