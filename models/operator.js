@@ -29,7 +29,7 @@ operatorSchema.pre('save', function(next) {
 function validateOperator(operator) {
     const schema = {
         name: Joi.string().max(50).required(),
-        password: Joi.string(),
+        password: Joi.string().required(),
         programs: Joi.array(),
         managers: Joi.array(),
     }
