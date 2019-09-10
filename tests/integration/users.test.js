@@ -305,4 +305,9 @@ describe('/api/users', () => {
             expect(newRecordOnUser.date).toBe(rawRecord.date)
         })
     })
+
+    describe('PUT /:id/operators', () => {
+        it.todo('adds the given shop to the user whose ID is provided')
+        it.todo('adds the user to the given shop')
+    })
 })
