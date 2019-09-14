@@ -17,10 +17,25 @@ const operatorSchema = new mongoose.Schema({
         default: "floridakeys"
     },
     programs: [ String ],
-    managers: [ mongoose.SchemaTypes.ObjectId ]
+    managers: [ mongoose.SchemaTypes.ObjectId ],
+    annualRecognition: [{
+        year: Number,
+        requirements: {
+            onlineTraining: Boolean,
+            continuingEducation: [{
+                title: String,
+                description: String,
+                date: Date
+            }],
+            inPersonEvaluation: {
+                date: Date,
+                passed: Boolean,
+                evaluator: String
+            }
+        },
+    }]
 })
 
-// TODO: pre('save') hook to create slug field
 operatorSchema.pre('save', function(next) {
     this.slug = slug(this.name)
     next()
