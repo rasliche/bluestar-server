@@ -3,19 +3,15 @@ const config = require('config');
 const helmet = require('helmet');
 const express = require('express');
 const mongoose = require('mongoose');
+const cors = require('cors');
 const routes = require('./routes');
 const { logError, handleError } = require('./middleware');
 
 const app = express();
 
-app.use(helmet());
+app.use(cors());
 
-app.use((req, res, next) => {
-  res.setHeader('Access-Control-Allow-Origin', '*');
-  res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, PATCH, DELETE');
-  res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization');
-  next();
-});
+app.use(helmet());
 
 app.use(express.json());
 
