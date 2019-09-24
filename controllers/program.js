@@ -1,19 +1,16 @@
-const express = require('express');
-const { Program, validateProgram } = require('../models/program');
+const { Program, validateProgram } = require('../models');
 
-const router = express.Router();
-
-router.get('/', async (req, res, next) => {
+const readPrograms = async (req, res) => {
   const programs = await Program.find();
   res.send(programs);
-});
+};
 
-router.get('/:id', async (req, res, next) => {
+const readProgram = async (req, res) => {
   const program = await Program.findOne({ _id: req.params.id });
   res.send(program);
-});
+};
 
-router.post('/', async (req, res, next) => {
+const createProgram = async (req, res) => {
   const { error } = validateProgram(req.body);
   if (error) return res.status(400).send(error);
 
@@ -22,10 +19,10 @@ router.post('/', async (req, res, next) => {
   });
 
   await program.save();
-  res.status(201).send(program);
-});
+  return res.status(201).send(program);
+};
 
-router.put('/:id', async (req, res, next) => {
+const updateProgram = async (req, res) => {
   const { error } = validateProgram(req.body);
   if (error) return res.status(400).send(error.details[0].message);
 
@@ -33,13 +30,19 @@ router.put('/:id', async (req, res, next) => {
     name: req.body.name,
   });
   if (!program) return res.status(404).send('Program with given ID not found.');
-  res.send(program);
-});
+  return res.send(program);
+};
 
-router.delete('/:id', async (req, res, next) => {
+const deleteProgram = async (req, res) => {
   const program = await Program.findByIdAndRemove(req.params.id);
   if (!program) return res.status(404).send('Program with given ID not found.');
-  res.send(program);
-});
+  return res.send(program);
+};
 
-module.exports = router;
+module.exports = {
+  readPrograms,
+  readProgram,
+  createProgram,
+  updateProgram,
+  deleteProgram,
+};

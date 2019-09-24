@@ -31,7 +31,11 @@ router.delete('/post/:id', controllers.post.deletePost);
 /**
  * Program API
  */
-
+router.get('/program', controllers.program.readPrograms);
+router.get('/program/:id', controllers.program.readProgram);
+router.post('/program', controllers.program.createProgram);
+router.put('/program/:id', controllers.program.updateProgram);
+router.delete('/program/:id', controllers.program.deleteProgram);
 
 /**
  * Quiz API
