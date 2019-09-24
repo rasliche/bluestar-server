@@ -1,11 +1,21 @@
-const Lesson = require('./lesson');
-const Operator = require('./operator');
-const Post = require('./post');
-const Program = require('./program');
+const { Lesson, validateLesson } = require('./lesson');
+const { Operator, validateOperator } = require('./operator');
+const { Post, validatePost } = require('./post');
+const { Program, validateProgram } = require('./program');
 const Quiz = require('./quiz');
-const User = require('./user');
-
+const { User, validateUser, validateRecord } = require('./user');
 
 module.exports = {
-  Lesson, Operator, Post, Program, Quiz, User,
+  Lesson,
+  validateLesson,
+  Operator,
+  validateOperator,
+  Post,
+  validatePost,
+  Program,
+  validateProgram,
+  Quiz,
+  User,
+  validateUser,
+  validateRecord,
 };
