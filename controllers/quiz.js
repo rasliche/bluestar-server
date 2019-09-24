@@ -1,14 +1,11 @@
-const express = require('express');
-const { Quiz } = require('../models/quiz.js');
+const { Quiz } = require('../models');
 
-const router = express.Router();
-
-router.get('/', async (req, res, next) => {
+const readQuizzes = async (req, res) => {
   const quizzes = await Quiz.find();
   res.send(quizzes);
-});
+};
 
-router.post('/', async (req, res, next) => {
+const createQuiz = async (req, res) => {
   const quiz = new Quiz({
     title: req.body.title,
     description: req.body.description,
@@ -19,6 +16,9 @@ router.post('/', async (req, res, next) => {
 
   await quiz.save();
   res.status(201).send(quiz);
-});
+};
 
-module.exports = router;
+module.exports = {
+  readQuizzes,
+  createQuiz,
+};

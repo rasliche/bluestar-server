@@ -40,6 +40,8 @@ router.delete('/program/:id', controllers.program.deleteProgram);
 /**
  * Quiz API
  */
+router.get('/quiz', controllers.quiz.readQuizzes);
+router.post('/quiz', controllers.quiz.createQuiz);
 
 
 /**
