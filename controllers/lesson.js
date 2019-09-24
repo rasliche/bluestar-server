@@ -1,19 +1,16 @@
-const express = require('express');
-const { Lesson, validateLesson } = require('../models/lesson');
+const { Lesson, validateLesson } = require('../models');
 
-const router = express.Router();
-
-router.get('/', async (req, res, next) => {
+const readLessons = async (req, res) => {
   const lessons = await Lesson.find();
   res.send(lessons);
-});
+};
 
-router.get('/:slug', async (req, res, next) => {
+const readLesson = async (req, res) => {
   const lesson = await Lesson.findOne({ slug: req.params.slug });
   res.send(lesson);
-});
+};
 
-router.post('/', async (req, res, next) => {
+const createLesson = async (req, res) => {
   const { error } = validateLesson(req.body);
   if (error) return res.status(400).send(error);
 
@@ -26,10 +23,10 @@ router.post('/', async (req, res, next) => {
   });
 
   await lesson.save();
-  res.status(201).send(lesson);
-});
+  return res.status(201).send(lesson);
+};
 
-router.put('/:id', async (req, res, next) => {
+const updateLesson = async (req, res) => {
   const { error } = validateLesson(req.body);
   if (error) return res.status(400).send(error.details[0].message);
 
@@ -40,13 +37,19 @@ router.put('/:id', async (req, res, next) => {
   });
   if (!lesson) return res.status(404).send('Lesson with given ID not found.');
 
-  res.send(lesson);
-});
+  return res.send(lesson);
+};
 
-router.delete('/:id', async (req, res, next) => {
+const deleteLesson = async (req, res) => {
   const lesson = Lesson.findByIdAndRemove(req.params.id);
   if (!lesson) return res.status(404).send('Lesson with the given ID not found.');
-  res.send(lesson);
-});
+  return res.send(lesson);
+};
 
-module.exports = router;
+module.exports = {
+  readLessons,
+  readLesson,
+  createLesson,
+  updateLesson,
+  deleteLesson,
+};
