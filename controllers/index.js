@@ -1,17 +1,17 @@
-const authController = require('./auth');
-const lessonController = require('./lesson');
-const operatorController = require('./operator');
-const postController = require('./post');
-const programController = require('./program');
-const quizController = require('./quiz');
-const userController = require('./user');
+const auth = require('./auth');
+const lesson = require('./lesson');
+const operator = require('./operator');
+const post = require('./post');
+const program = require('./program');
+const quiz = require('./quiz');
+const user = require('./user');
 
 module.exports = {
-  authController,
-  lessonController,
-  operatorController,
-  postController,
-  programController,
-  quizController,
-  userController,
+  auth,
+  lesson,
+  operator,
+  post,
+  program,
+  quiz,
+  user,
 };
