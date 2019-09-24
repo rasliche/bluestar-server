@@ -1,17 +1,13 @@
-const express = require('express');
-
-const router = express.Router();
 const bcrypt = require('bcrypt');
 const _ = require('lodash');
 const { User, validateUser, validateRecord } = require('../models/user.js');
-const auth = require('../middleware/authenticated');
 
-router.get('/', async (req, res, next) => {
+const readUsers = async (req, res) => {
   const users = await User.find();
   res.send(users);
-});
+};
 
-router.get('/me', [auth], async (req, res, next) => {
+const me = async (req, res) => {
   let { token } = req;
   // if (!token) {
   //     const error = new Error('No authentication token provided.')
@@ -27,16 +23,16 @@ router.get('/me', [auth], async (req, res, next) => {
   token = user.generateAuthToken();
   const userData = _.pick(user, ['name', 'email', '_id', 'isAdmin', 'operators', 'lessonScores']);
   res.send({ user: userData, token });
-});
+};
 
-router.get('/:id', async (req, res, next) => {
+const readUser = async (req, res) => {
   let user = await User.findById(req.params.id);
   if (!user) return res.status(404).send('No user found with given ID.');
   user = _.pick(user, ['name', 'email', '_id', 'isAdmin', 'operators', 'lessonScores']);
-  res.send(user);
-});
+  return res.send(user);
+};
 
-router.post('/', async (req, res, next) => {
+const createUser = async (req, res) => {
   // TODO: normalize email
   const { error } = validateUser(req.body);
   if (error) { return res.status(400).send('Invalid user data received.'); }
@@ -57,10 +53,10 @@ router.post('/', async (req, res, next) => {
   const token = user.generateAuthToken();
   user = _.pick(user, ['name', 'email', '_id', 'isAdmin', 'operators', 'lessonScores']);
 
-  res.send({ user, token });
-});
+  return res.send({ user, token });
+};
 
-router.put('/:id/records', [auth], async (req, res, next) => {
+const updateUser = async (req, res) => {
   const { error } = validateRecord(req.body); // validation found in User.js Model
   if (error) { return res.status(400).send('Invalid record received.'); }
   // Will we need to modify this to allow admin access?
@@ -82,6 +78,12 @@ router.put('/:id/records', [auth], async (req, res, next) => {
   }
   // nothing to update
   return res.status(200).send(user);
-});
+};
 
-module.exports = router;
+module.exports = {
+  readUsers,
+  me,
+  readUser,
+  createUser,
+  updateUser,
+};

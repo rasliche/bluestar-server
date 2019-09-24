@@ -43,9 +43,13 @@ router.delete('/program/:id', controllers.program.deleteProgram);
 router.get('/quiz', controllers.quiz.readQuizzes);
 router.post('/quiz', controllers.quiz.createQuiz);
 
-
 /**
  * User API
  */
+router.get('/user', controllers.user.readUsers);
+router.get('/user/me', isAuthenticated, controllers.user.me);
+router.get('/user/:id', controllers.user.readUser);
+router.post('/user', controllers.user.createUser);
+router.put('/user/:id/records', isAuthenticated, controllers.user.updateUser);
 
 module.exports = router;
