@@ -1,5 +1,6 @@
 const router = require('express').Router();
 const controllers = require('../controllers');
+const { isAuthenticated } = require('../middleware');
 
 /**
  * Lesson API
@@ -13,6 +14,10 @@ router.delete('/lesson/:id', controllers.lesson.deleteLesson);
 /**
  * Operator API
  */
+router.get('/operator', controllers.operator.readOperators);
+router.get('/operator/:slug', controllers.operator.readOperator);
+router.post('/operator', isAuthenticated, controllers.operator.createOperator);
+router.delete('/operator/:id', isAuthenticated, controllers.operator.deleteOperator);
 
 /**
  * Post API

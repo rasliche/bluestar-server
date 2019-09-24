@@ -1,21 +1,17 @@
-const express = require('express');
-const { Operator, validateOperator } = require('../models/operator');
-const auth = require('../middleware/authenticated');
+const { Operator, validateOperator } = require('../models');
 
-const router = express.Router();
-
-router.get('/', async (req, res, next) => {
+const readOperators = async (req, res) => {
   const operators = await Operator.find();
   res.send(operators);
-});
+};
 
-router.get('/:slug', async (req, res, next) => {
+const readOperator = async (req, res) => {
   const operator = await Operator.findOne({ slug: req.params.slug });
   if (!operator) { return res.status(404).send('No operator found.'); }
-  res.send(operator);
-});
+  return res.send(operator);
+};
 
-router.post('/', auth, async (req, res, next) => {
+const createOperator = async (req, res) => {
   const { error } = validateOperator(req.body);
   if (error) return res.status(400).send('Valid operator data not present.');
 
@@ -25,13 +21,18 @@ router.post('/', auth, async (req, res, next) => {
     programs: req.body.programs,
   });
   await operator.save();
-  res.status(201).send(operator);
-});
+  return res.status(201).send(operator);
+};
 
-router.delete('/:id', auth, async (req, res, next) => {
+const deleteOperator = async (req, res) => {
   const operator = await Operator.findByIdAndRemove(req.params.id);
   if (!operator) return res.status(404).send('Operator with given ID not found.');
-  res.status(200).send(operator);
-});
+  return res.status(200).send(operator);
+};
 
-module.exports = router;
+module.exports = {
+  readOperators,
+  readOperator,
+  createOperator,
+  deleteOperator,
+};
