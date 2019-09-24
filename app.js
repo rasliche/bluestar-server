@@ -1,8 +1,10 @@
 require('express-async-errors');
 const config = require('config');
-const helmet = require('helmet');
 const express = require('express');
+const compression = require('compression');
 const morgan = require('morgan');
+const helmet = require('helmet');
+
 const cors = require('cors');
 const routes = require('./routes');
 const { logError, handleError } = require('./middleware');
@@ -17,6 +19,9 @@ app.use(morgan('combined'));
 // Parse body parameters and attach them to req.body
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+
+// gzip compression
+app.use(compression());
 
 app.use(cors());
 
