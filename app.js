@@ -2,6 +2,7 @@ require('express-async-errors');
 const config = require('config');
 const helmet = require('helmet');
 const express = require('express');
+const morgan = require('morgan');
 const cors = require('cors');
 const routes = require('./routes');
 const { logError, handleError } = require('./middleware');
@@ -9,6 +10,9 @@ const { logError, handleError } = require('./middleware');
 const port = config.get('port');
 
 const app = express();
+
+// Log requests
+app.use(morgan('combined'));
 
 app.use(cors());
 
