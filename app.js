@@ -3,6 +3,7 @@ const config = require('config');
 const helmet = require('helmet');
 const express = require('express');
 const mongoose = require('mongoose');
+const routes = require('./routes');
 const usersRoutes = require('./routes/users');
 const quizzesRoutes = require('./routes/quizzes');
 const operatorsRoutes = require('./routes/operators');
@@ -24,6 +25,7 @@ app.use((req, res, next) => {
 
 app.use(express.json());
 
+app.use('/', routes);
 app.use('/api/users/', usersRoutes);
 app.use('/api/quizzes/', quizzesRoutes);
 app.use('/api/operators/', operatorsRoutes);
