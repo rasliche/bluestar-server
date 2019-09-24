@@ -22,7 +22,11 @@ router.delete('/operator/:id', isAuthenticated, controllers.operator.deleteOpera
 /**
  * Post API
  */
-
+router.get('/post', controllers.post.readPosts);
+router.get('/post/:slug', controllers.post.readPost);
+router.post('/post', controllers.post.createPost);
+router.put('/post/:id', controllers.post.updatePost);
+router.delete('/post/:id', controllers.post.deletePost);
 
 /**
  * Program API
