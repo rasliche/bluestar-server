@@ -14,11 +14,14 @@ const app = express();
 // Log requests
 app.use(morgan('combined'));
 
+// Parse body parameters and attach them to req.body
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
+
 app.use(cors());
 
 app.use(helmet());
 
-app.use(express.json());
 
 app.use('/', routes);
 app.use(logError);
