@@ -1,81 +1,81 @@
-const config = require('config')
-const mongoose = require('mongoose')
-const Joi = require('joi')
-const jwt = require('jsonwebtoken')
+const config = require('config');
+const mongoose = require('mongoose');
+const Joi = require('joi');
+const jwt = require('jsonwebtoken');
 
 const userSchema = new mongoose.Schema({
-    name: {
-        type: String,
-        required: true,
-        minlength: 1,
-        maxlength: 255
-    },
-    email: {
-        type: String,
-        required: true,
-        unique: true,
-        minlength: 5,
-        maxlength: 255
-    },
-    password: {
-        type: String,
-        required: true,
-        minlength: 1,
-        maxlength: 1024
-    },
-    operators: [
-        {
-            name: { type: String },
-            _id: { type: mongoose.SchemaTypes.ObjectId },
-            manager: {
-                type: Boolean,
-                default: false
-            }
-        }
-    ],
-    lessonScores: [
-        {
-            lessonSlug: {
-                type: String,
-                required: true,
-            },
-            lessonName: {
-                type: String,
-                required: true,
-            },
-            score: {
-                type: Number,
-                default: 0
-            },
-            date: {
-                type: Date,
-                default: Date.now()
-            }
-        }
-    ],
-    isAdmin: {
+  name: {
+    type: String,
+    required: true,
+    minlength: 1,
+    maxlength: 255,
+  },
+  email: {
+    type: String,
+    required: true,
+    unique: true,
+    minlength: 5,
+    maxlength: 255,
+  },
+  password: {
+    type: String,
+    required: true,
+    minlength: 1,
+    maxlength: 1024,
+  },
+  operators: [
+    {
+      name: { type: String },
+      _id: { type: mongoose.SchemaTypes.ObjectId },
+      manager: {
         type: Boolean,
         default: false,
-    }
-})
+      },
+    },
+  ],
+  lessonScores: [
+    {
+      lessonSlug: {
+        type: String,
+        required: true,
+      },
+      lessonName: {
+        type: String,
+        required: true,
+      },
+      score: {
+        type: Number,
+        default: 0,
+      },
+      date: {
+        type: Date,
+        default: Date.now(),
+      },
+    },
+  ],
+  isAdmin: {
+    type: Boolean,
+    default: false,
+  },
+});
 
 // Method on User object that signs and returns a JSON Web Token
 // Token contains User._id, whether the user is a full Admin
 // and is no longer valid after 2 hours.
 
-userSchema.methods.generateAuthToken = function() {
-    const token = jwt.sign({
-        _id: this._id,
-        // name: this.name,
-        // email: this.email,
-        // operators: this.operators,
-        // lessonScores: this.lessonScores,
-        isAdmin: this.isAdmin
-        }, 
-        config.get('jwtPrivateKey'),
-        { expiresIn: '2h' })
-    return token
-}
+userSchema.methods.generateAuthToken = function () {
+  const token = jwt.sign({
+    _id: this._id,
+    // name: this.name,
+    // email: this.email,
+    // operators: this.operators,
+    // lessonScores: this.lessonScores,
+    isAdmin: this.isAdmin,
+  },
+  config.get('jwtPrivateKey'),
+  { expiresIn: '2h' });
+  return token;
+};
 
 // Validate that User has the required shape.
 // Used in creating new users and logging in.
@@ -83,23 +83,24 @@ userSchema.methods.generateAuthToken = function() {
 // but the hashed password is stored in the User record.
 
 function validateUser(user) {
-    const schema = {
-        name: Joi.string().min(1).max(255).required(),
-        email: Joi.string().min(5).max(255).required().email(),
-        password: Joi.string().min(5).max(255)
-    }
-    return Joi.validate(user, schema)
+  const schema = {
+    name: Joi.string().min(1).max(255).required(),
+    email: Joi.string().min(5).max(255).required()
+      .email(),
+    password: Joi.string().min(5).max(255),
+  };
+  return Joi.validate(user, schema);
 }
 
 function validateRecord(record) {
-    const schema = {
-        lessonName: Joi.string().required(),
-        lessonSlug: Joi.string().required(),
-        score: Joi.number(),
-    }
-    return Joi.validate(record, schema)
+  const schema = {
+    lessonName: Joi.string().required(),
+    lessonSlug: Joi.string().required(),
+    score: Joi.number(),
+  };
+  return Joi.validate(record, schema);
 }
 
-module.exports.User = mongoose.model('User', userSchema)
-module.exports.validateUser = validateUser
-module.exports.validateRecord = validateRecord
+module.exports.User = mongoose.model('User', userSchema);
+module.exports.validateUser = validateUser;
+module.exports.validateRecord = validateRecord;
