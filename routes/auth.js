@@ -24,6 +24,10 @@ router.post('/login', async (req, res, next) => {
     const validPassword = await bcrypt.compare(req.body.password, user.password)
     if (!validPassword) { return res.status(400).send('Invalid email or password') }
 
+    // Increase loginCount so we can keep track of active accounts
+    user.loginCount++
+    await user.save()
+    
     const token = user.generateAuthToken()
     user = _.pick(user, ['name', 'email', '_id', 'isAdmin', 'operators', 'lessonScores'])
     
