@@ -56,6 +56,12 @@ const userSchema = new mongoose.Schema({
     isAdmin: {
         type: Boolean,
         default: false,
+    },
+    lastLogin: {
+        type: Date,
+    },
+    loginCount: {
+        type: Number,
     }
 })
 
