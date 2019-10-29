@@ -56,6 +56,12 @@ const userSchema = new mongoose.Schema({
     isAdmin: {
         type: Boolean,
         default: false,
+    },
+    lastLogin: {
+        type: Date,
+    },
+    loginCount: {
+        type: Number,
     }
 })
 
@@ -64,16 +70,13 @@ const userSchema = new mongoose.Schema({
 // and is no longer valid after 2 hours.
 
 userSchema.methods.generateAuthToken = function() {
-    const token = jwt.sign({
-        _id: this._id,
-        // name: this.name,
-        // email: this.email,
-        // operators: this.operators,
-        // lessonScores: this.lessonScores,
-        isAdmin: this.isAdmin
+    const token = jwt.sign(
+        { 
+            _id: this._id,
+            isAdmin: this.isAdmin, // destructure _id, isAdmin
         }, 
-        config.get('jwtPrivateKey'),
-        { expiresIn: '2h' })
+        config.get('jwtPrivateKey'), // secret
+        { expiresIn: '2h' }) // claims
     return token
 }
 
