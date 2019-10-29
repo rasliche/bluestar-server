@@ -3,7 +3,6 @@ const router = express.Router()
 const Joi = require('joi')
 const { User } = require('../models/user')
 const bcrypt = require('bcrypt') // for comparing passwords
-const _ = require('lodash')
 
 function validateLogin(user) {
     const schema = {
