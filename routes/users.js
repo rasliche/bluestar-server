@@ -23,9 +23,9 @@ router.get('/me', [auth], async (req, res, next) => {
     //     error.statusCode = 404
     //     throw error
     // }
-    token = user.generateAuthToken()
-    const userData = _.pick(user, ['name', 'email', '_id', 'isAdmin', 'operators', 'lessonScores'])
-    res.send({ user: userData, token })
+    // token = user.generateAuthToken()
+    const { password, ...userWithoutPassword } = user.toObject()
+    res.send(userWithoutPassword)
 })
 
 router.get('/:id', async (req, res, next) => {
