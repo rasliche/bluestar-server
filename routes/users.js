@@ -11,13 +11,13 @@ router.get('/', async (req, res, next) => {
 })
 
 router.get('/me', [auth], async (req, res, next) => {
-    let { token } = req
+    const { token } = req
     // if (!token) {
     //     const error = new Error('No authentication token provided.')
     //     error.statusCode = 401
     //     throw error
     // }
-    const user = await User.findById({ _id: token._id })
+    const user = await User.findById(token._id)
     if (!user) { res.status(404).send('No user found with current jwt.') }
     //     const error = new Error('No user found with current jwt.')
     //     error.statusCode = 404
