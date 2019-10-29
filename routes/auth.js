@@ -25,13 +25,12 @@ router.post('/login', async (req, res, next) => {
     if (!validPassword) { return res.status(400).send('Invalid email or password') }
 
     // Increase loginCount so we can keep track of active accounts
-    user.loginCount++
-    await user.save()
+    // await User.findByIdAndUpdate(user._id, { $inc: user.loginCount, 'user.lastLogin': new Date().now })
     
     const token = user.generateAuthToken()
-    user = _.pick(user, ['name', 'email', '_id', 'isAdmin', 'operators', 'lessonScores'])
+    const { password, ...userWithoutPassword } = user.toObject()
     
-    res.send({ user, token })
+    res.send({ ...userWithoutPassword, token })
 })
 
 module.exports.router = router
