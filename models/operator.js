@@ -37,7 +37,7 @@ const operatorSchema = new mongoose.Schema({
 })
 
 operatorSchema.pre('save', function(next) {
-    this.slug = slug(this.name)
+    this.slug = slug(this.name, { lower: true })
     next()
 })
 
