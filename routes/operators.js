@@ -12,7 +12,7 @@ router.get('/', async (req, res, next) => {
 router.get('/:slug', async (req, res, next) => {
     const operator = await Operator.findOne({ slug: req.params.slug })
     if (!operator) { return res.status(404).send('No operator found.')}
-    res.send(operator)
+    res.send(operator.toObject())
 })
 
 router.post('/', auth, async (req, res, next) => {
