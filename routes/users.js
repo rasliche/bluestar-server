@@ -2,7 +2,7 @@ const express = require('express')
 const router = express.Router()
 const { User, validateUser, validateRecord } = require('../models/user.js')
 const bcrypt = require('bcrypt')
-const _ = require('lodash')
+const config = require('config')
 const auth = require('../middleware/authenticated')
 
 router.get('/', async (req, res, next) => {
@@ -31,8 +31,8 @@ router.get('/me', [auth], async (req, res, next) => {
 router.get('/:id', async (req, res, next) => {
     let user = await User.findById(req.params.id)
     if (!user) return res.status(404).send("No user found with given ID.")
-    user = _.pick(user, ['name', 'email', '_id', 'isAdmin', 'operators', 'lessonScores'])
-    res.send(user)
+    const { password, ...userWithoutPassword } = user.toObject()
+    res.send(userWithoutPassword)
 })
 
 router.post('/', async (req, res, next) => {
@@ -43,6 +43,7 @@ router.post('/', async (req, res, next) => {
     let user = await User.findOne({ email: req.body.email })
     if (user) { return res.status(400).send("User already exists.") }
 
+    console.log(req.body)
     user = new User({
         name: req.body.name,
         email: req.body.email,
@@ -54,9 +55,37 @@ router.post('/', async (req, res, next) => {
     await user.save()
     
     const token = user.generateAuthToken()
-    user = _.pick(user, ['name', 'email', '_id', 'isAdmin', 'operators', 'lessonScores'])
+    const { password, ...userWithoutPassword } = user.toObject()
+    
+    res.send({ ...userWithoutPassword, token })
+})
 
-    res.send({ user, token })
+router.post('/register-as-admin', async (req, res, next) => {
+    // TODO: normalize email
+    const { error } = validateUser(req.body)
+    if (error) { return res.status(400).send("Invalid user data received.") }
+
+    let user = await User.findOne({ email: req.body.email })
+    if (user) { return res.status(400).send("User already exists.") }
+
+    const validPassword = (req.body.adminPass === config.get('admin_register_password'))
+    if (!validPassword) { return res.status(400).send('Invalid email or password') }
+    
+    user = new User({
+        name: req.body.name,
+        email: req.body.email,
+        password: req.body.password,
+        isAdmin: true
+    })
+
+    const salt = await bcrypt.genSalt(10)
+    user.password = await bcrypt.hash(user.password, salt)
+    await user.save()
+    
+    const token = user.generateAuthToken()
+    const { password, ...userWithoutPassword } = user.toObject()
+    
+    res.send({ ...userWithoutPassword, token })
 })
 
 router.put('/:id/records', [auth], async (req, res, next) => {
