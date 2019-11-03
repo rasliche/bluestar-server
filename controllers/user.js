@@ -15,7 +15,7 @@ const me = async (req, res) => {
   //     throw error
   // }
   const user = await User.findById({ _id: token._id });
-  if (!user) { res.status(404).send('No user found with current jwt.'); }
+  if (!user) { return res.status(404).send('No user found with current jwt.'); }
   //     const error = new Error('No user found with current jwt.')
   //     error.statusCode = 404
   //     throw error

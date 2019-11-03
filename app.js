@@ -11,6 +11,8 @@ const { logError, handleError } = require('./middleware');
 const port = config.get('port');
 const app = express();
 
+app.set('port', port);
+
 // Log requests
 app.use(morgan('combined'));
 
@@ -32,7 +34,9 @@ app.use('/', routes);
 app.use(logError);
 app.use(handleError);
 
-app.listen(port, () => {
+const server = app.listen(port, () => {
   console.log(`Application Name: ${config.get('name')}`);
   console.log(`Server listening on port ${port}.`);
 });
+
+module.exports = server;
