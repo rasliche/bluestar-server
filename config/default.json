@@ -5,5 +5,6 @@
     "jwtPrivateKey": "bluestarsecretkey",
     "mail": {
         "host": "dev-mail-server"
-    }
+    },
+    "admin_register_password": "Enter a password to create a new admin."
 }

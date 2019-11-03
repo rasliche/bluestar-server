@@ -8,28 +8,28 @@ const readUsers = async (req, res) => {
 };
 
 const me = async (req, res) => {
-  let { token } = req;
+  const { token } = req;
   // if (!token) {
   //     const error = new Error('No authentication token provided.')
   //     error.statusCode = 401
   //     throw error
   // }
-  const user = await User.findById({ _id: token._id });
-  if (!user) { return res.status(404).send('No user found with current jwt.'); }
+  const user = await User.findById(token._id);
+  if (!user) { res.status(404).send('No user found with current jwt.'); }
   //     const error = new Error('No user found with current jwt.')
   //     error.statusCode = 404
   //     throw error
   // }
-  token = user.generateAuthToken();
-  const userData = _.pick(user, ['name', 'email', '_id', 'isAdmin', 'operators', 'lessonScores']);
-  res.send({ user: userData, token });
+  // token = user.generateAuthToken()
+  const { password, ...userWithoutPassword } = user.toObject();
+  res.send(userWithoutPassword);
 };
 
 const readUser = async (req, res) => {
-  let user = await User.findById(req.params.id);
+  const user = await User.findById(req.params.id);
   if (!user) return res.status(404).send('No user found with given ID.');
-  user = _.pick(user, ['name', 'email', '_id', 'isAdmin', 'operators', 'lessonScores']);
-  return res.send(user);
+  const { password, ...userWithoutPassword } = user.toObject();
+  res.send(userWithoutPassword);
 };
 
 const createUser = async (req, res) => {
@@ -40,6 +40,7 @@ const createUser = async (req, res) => {
   let user = await User.findOne({ email: req.body.email });
   if (user) { return res.status(400).send('User already exists.'); }
 
+  console.log(req.body);
   user = new User({
     name: req.body.name,
     email: req.body.email,
@@ -51,9 +52,37 @@ const createUser = async (req, res) => {
   await user.save();
 
   const token = user.generateAuthToken();
-  user = _.pick(user, ['name', 'email', '_id', 'isAdmin', 'operators', 'lessonScores']);
+  const { password, ...userWithoutPassword } = user.toObject();
 
-  return res.send({ user, token });
+  res.send({ ...userWithoutPassword, token });
+};
+
+const createAdmin = async (req, res) => {
+  // TODO: normalize email
+  const { error } = validateUser(req.body);
+  if (error) { return res.status(400).send('Invalid user data received.'); }
+
+  let user = await User.findOne({ email: req.body.email });
+  if (user) { return res.status(400).send('User already exists.'); }
+
+  const validPassword = (req.body.adminPass === config.get('admin_register_password'));
+  if (!validPassword) { return res.status(400).send('Invalid email or password'); }
+
+  user = new User({
+    name: req.body.name,
+    email: req.body.email,
+    password: req.body.password,
+    isAdmin: true,
+  });
+
+  const salt = await bcrypt.genSalt(10);
+  user.password = await bcrypt.hash(user.password, salt);
+  await user.save();
+
+  const token = user.generateAuthToken();
+  const { password, ...userWithoutPassword } = user.toObject();
+
+  res.send({ ...userWithoutPassword, token });
 };
 
 const updateUser = async (req, res) => {
@@ -85,5 +114,6 @@ module.exports = {
   me,
   readUser,
   createUser,
+  createAdmin,
   updateUser,
 };

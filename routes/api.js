@@ -50,6 +50,7 @@ router.get('/user', controllers.user.readUsers);
 router.get('/user/me', isAuthenticated, controllers.user.me);
 router.get('/user/:id', controllers.user.readUser);
 router.post('/user', controllers.user.createUser);
+router.post('/user/register-as-admin', controllers.user.createAdmin);
 router.put('/user/:id/records', isAuthenticated, controllers.user.updateUser);
 
 module.exports = router;

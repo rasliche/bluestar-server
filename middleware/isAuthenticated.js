@@ -9,6 +9,7 @@ const isAuthenticated = (req, res, next) => {
   if (!token) { return res.status(401).send('No authorization token present.'); }
   jwt.verify(token, config.get('jwtPrivateKey'), (error, decodedToken) => {
     if (error) { return res.status(401).send('User authorization token is not able to be verified.'); }
+    if (config.util.getEnv('NODE_ENV') === 'development') { console.log(decodedToken); }
     req.token = decodedToken;
   });
   next();

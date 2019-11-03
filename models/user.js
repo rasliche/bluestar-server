@@ -57,6 +57,12 @@ const userSchema = new mongoose.Schema({
     type: Boolean,
     default: false,
   },
+  lastLogin: {
+    type: Date,
+  },
+  loginCount: {
+    type: Number,
+  },
 });
 
 // Method on User object that signs and returns a JSON Web Token
@@ -64,16 +70,14 @@ const userSchema = new mongoose.Schema({
 // and is no longer valid after 2 hours.
 
 userSchema.methods.generateAuthToken = function () {
-  const token = jwt.sign({
-    _id: this._id,
-    // name: this.name,
-    // email: this.email,
-    // operators: this.operators,
-    // lessonScores: this.lessonScores,
-    isAdmin: this.isAdmin,
-  },
-  config.get('jwtPrivateKey'),
-  { expiresIn: '2h' });
+  const token = jwt.sign(
+    {
+      _id: this._id,
+      isAdmin: this.isAdmin, // destructure _id, isAdmin
+    },
+    config.get('jwtPrivateKey'), // secret
+    { expiresIn: '2h' },
+  ); // claims
   return token;
 };
 
@@ -88,6 +92,7 @@ function validateUser(user) {
     email: Joi.string().min(5).max(255).required()
       .email(),
     password: Joi.string().min(5).max(255),
+    adminPass: Joi.string(),
   };
   return Joi.validate(user, schema);
 }
