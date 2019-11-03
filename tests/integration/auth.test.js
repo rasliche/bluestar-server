@@ -59,18 +59,18 @@ describe('/api/auth', () => {
         password: 'password',
       };
       await request(server)
-        .post('/api/user/')
+        .post('/api/user')
         .send(user);
       const response = await request(server)
         .post('/auth/login')
         .send({ email: user.email, password: user.password });
       expect(response.body).toHaveProperty('token');
-      expect(response.body).toHaveProperty('user.name');
-      expect(response.body).toHaveProperty('user.email');
-      expect(response.body).toHaveProperty('user._id');
-      expect(response.body).toHaveProperty('user.isAdmin');
-      expect(response.body).toHaveProperty('user.operators');
-      expect(response.body).toHaveProperty('user.lessonScores');
+      expect(response.body).toHaveProperty('name');
+      expect(response.body).toHaveProperty('email');
+      expect(response.body).toHaveProperty('_id');
+      expect(response.body).toHaveProperty('isAdmin');
+      expect(response.body).toHaveProperty('operators');
+      expect(response.body).toHaveProperty('lessonScores');
     });
   });
 });

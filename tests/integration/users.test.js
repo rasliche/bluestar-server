@@ -38,14 +38,15 @@ describe('/api/users', () => {
       const response = await request(server)
         .get('/api/user/me')
         .set('Authorization', `Bearer: ${token}`);
-      expect(response.body).toHaveProperty('token');
-      expect(response.body).toHaveProperty('user.name');
-      expect(response.body).toHaveProperty('user.email');
-      expect(response.body).toHaveProperty('user._id');
-      expect(response.body).toHaveProperty('user.isAdmin');
-      expect(response.body).toHaveProperty('user.operators');
-      expect(response.body).toHaveProperty('user.lessonScores');
-      expect(response.body).not.toHaveProperty('user.password');
+
+      // expect(response.body).toHaveProperty('token');
+      expect(response.body).toHaveProperty('name');
+      expect(response.body).toHaveProperty('email');
+      expect(response.body).toHaveProperty('_id');
+      expect(response.body).toHaveProperty('isAdmin');
+      expect(response.body).toHaveProperty('operators');
+      expect(response.body).toHaveProperty('lessonScores');
+      expect(response.body).not.toHaveProperty('password');
     });
 
     it('should return 404 if a user is not found for the token ID', async () => {
@@ -144,13 +145,13 @@ describe('/api/users', () => {
         .post('/api/user')
         .send(user);
       expect(response.body).toHaveProperty('token');
-      expect(response.body).toHaveProperty('user.name');
-      expect(response.body).toHaveProperty('user.email');
-      expect(response.body).toHaveProperty('user._id');
-      expect(response.body).toHaveProperty('user.isAdmin');
-      expect(response.body).toHaveProperty('user.operators');
-      expect(response.body).toHaveProperty('user.lessonScores');
-      expect(response.body).not.toHaveProperty('user.password');
+      expect(response.body).toHaveProperty('name');
+      expect(response.body).toHaveProperty('email');
+      expect(response.body).toHaveProperty('_id');
+      expect(response.body).toHaveProperty('isAdmin');
+      expect(response.body).toHaveProperty('operators');
+      expect(response.body).toHaveProperty('lessonScores');
+      expect(response.body).not.toHaveProperty('password');
     });
   });
 
