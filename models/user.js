@@ -73,7 +73,7 @@ userSchema.methods.generateAuthToken = function() {
     const token = jwt.sign(
         { 
             _id: this._id,
-            isAdmin: this.isAdmin, // destructure _id, isAdmin
+            isAdmin: this.isAdmin, // Can you just destructure { _id, isAdmin }
         }, 
         config.get('jwtPrivateKey'), // secret
         { expiresIn: '2h' }) // claims
