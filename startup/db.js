@@ -3,7 +3,12 @@ const mongoose = require('mongoose')
 
 module.exports = async function () {
     const db = config.get('db')
-    await mongoose.connect(db, { useNewUrlParser: true, })
+    await mongoose.connect(db, { 
+        useNewUrlParser: true,
+        useCreateIndex: true,
+        useUnifiedTopology: true,
+
+    })
     if (config.util.getEnv() === 'development') {
         console.log(`Connected to ${db}`)
     }
