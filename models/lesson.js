@@ -36,9 +36,9 @@ function validateLesson(lesson) {
     const schema = {
         title: Joi.string().required(),
         description: Joi.string().required(),
-        content: Joi.required(),
         programs: Joi.array(),
-        published: Joi.boolean()
+        published: Joi.boolean(),
+        content: Joi.required(),
     }
     return Joi.validate(lesson, schema)
 }
