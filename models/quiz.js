@@ -1,5 +1,5 @@
 const mongoose = require('mongoose')
-const Joi = require('joi')
+// const Joi = require('joi')
 
 const quizSchema = new mongoose.Schema({
     title: {
@@ -12,18 +12,32 @@ const quizSchema = new mongoose.Schema({
     passingScorePercent: {
         type: Number
     },
-    questions: [
+    questions: [ // make into separate resource?
         {
-            text: String,
+            text: {
+                type: String,
+                required: true,
+            },
             answers: [
-                { text: String, isRight: Boolean }
+                { 
+                    text: {
+                        type: String,
+                        required: true,
+                    },
+                    isRight: {
+                        type: Boolean,
+                        required: true,
+                        default: false,}
+                    }
             ],
-            theMoreYouKnow: String,
+            theMoreYouKnow: {
+                type: String,
+            }
         }
     ],
     lessonId: {
         type: mongoose.SchemaTypes.ObjectId
-    }
+    },
 })
 
 module.exports.Quiz = mongoose.model('Quiz', quizSchema)
