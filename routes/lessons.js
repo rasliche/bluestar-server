@@ -29,21 +29,23 @@ router.post('/', async (req, res, next) => {
     res.status(201).send(lesson)
 })
 
-router.put('/:id', async (req, res, next) => {
+router.put('/:slug', async (req, res, next) => {
     const { error } = validateLesson(req.body)
     if (error) return res.status(400).send(error.details[0].message)
     
-    const lesson = await Lesson.findByIdAndUpdate(req.params.id, {
+    const lesson = await Lesson.findOneAndUpdate({slug: req.params.slug },{
         title: req.body.title,
         description: req.body.description,
-        content: req.body.content
+        programs: req.body.programs,
+        published: req.body.published,
+        content: req.body.content,
     })
     if (!lesson) return res.status(404).send("Lesson with given ID not found.")
 
     res.send(lesson)
 })
 
-router.delete('/:id', async (req, res, next) => {
+router.delete('/:slug', async (req, res, next) => {
     const lesson = Lesson.findByIdAndRemove(req.params.id)
     if (!lesson) return res.status(404).send("Lesson with the given ID not found.")
     res.send(lesson)
