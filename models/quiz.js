@@ -35,8 +35,8 @@ const quizSchema = new mongoose.Schema({
             }
         }
     ],
-    lessonId: {
-        type: mongoose.SchemaTypes.ObjectId
+    lessonSlug: {
+        type: String
     },
 })
 
