@@ -46,7 +46,7 @@ router.put('/:slug', async (req, res, next) => {
 })
 
 router.delete('/:slug', async (req, res, next) => {
-    const lesson = Lesson.findByIdAndRemove(req.params.id)
+    const lesson = Lesson.findOneAndDelete({ slug: req.params.slug })
     if (!lesson) return res.status(404).send("Lesson with the given ID not found.")
     res.send(lesson)
 })
