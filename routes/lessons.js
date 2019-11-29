@@ -1,4 +1,5 @@
 const express = require('express')
+const slug = require('slug')
 const { Lesson, validateLesson } = require('../models/lesson')
 
 const router = express.Router()
@@ -34,6 +35,7 @@ router.put('/:slug', async (req, res, next) => {
     if (error) return res.status(400).send(error.details[0].message)
     
     const lesson = await Lesson.findOneAndUpdate({slug: req.params.slug },{
+        slug: slug(req.body.title),
         title: req.body.title,
         description: req.body.description,
         programs: req.body.programs,
