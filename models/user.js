@@ -35,8 +35,8 @@ const userSchema = new mongoose.Schema({
     ],
     lessonScores: [
         {
-            lessonSlug: {
-                type: String,
+            lessonId: {
+                type: mongoose.Schema.Types.ObjectId,
                 required: true,
             },
             lessonName: {
@@ -49,7 +49,7 @@ const userSchema = new mongoose.Schema({
             },
             date: {
                 type: Date,
-                default: Date.now()
+                default: () => Date.now()
             }
         }
     ],
@@ -98,8 +98,9 @@ function validateUser(user) {
 function validateRecord(record) {
     const schema = {
         lessonName: Joi.string().required(),
-        lessonSlug: Joi.string().required(),
-        score: Joi.number(),
+        lessonId: Joi.string().required(),
+        score: Joi.number().required(),
+        date: Joi.date(),
     }
     return Joi.validate(record, schema)
 }
