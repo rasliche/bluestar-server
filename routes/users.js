@@ -98,7 +98,8 @@ router.put('/:id/records', [auth], async (req, res, next) => {
     let user = await User.findById(req.params.id).select('-password')
     if (!user) return res.status(404).send("The user with the given ID was not found.")
     
-    let lessonRecord = user.lessonScores.find(r => r.lessonSlug === req.body.lessonSlug)
+    let lessonRecord = user.lessonScores.find(r => r.lessonId === req.body.lessonId)
+    console.log(lessonRecord)
     if (!lessonRecord) { 
         user.lessonScores.push(req.body)
         await user.save()
@@ -109,6 +110,7 @@ router.put('/:id/records', [auth], async (req, res, next) => {
         return res.status(200).send(user)
     } else {
         // nothing to update
+        console.log('Nothing updated.')
         return res.status(200).send(user)
     }
 })
