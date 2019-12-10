@@ -1,6 +1,7 @@
 const mongoose = require('mongoose')
-const slug = require('slug')
+// const slug = require('slug')
 const Joi = require('joi')
+const { questionSchema } = require('./question.js')
 
 const lessonSchema = new mongoose.Schema({
     title: {
@@ -21,24 +22,26 @@ const lessonSchema = new mongoose.Schema({
     programs: [
         { type: String }
     ],
-    slug: {
-        type: String,
-        unique: true
-    }
+    // slug: {
+    //     type: String,
+    //     unique: true
+    // },
+    questions: [ questionSchema ],
 })
 
-lessonSchema.pre('save', function(next) {
-    this.slug = slug(this.title)
-    next()
-})
+// lessonSchema.pre('save', function(next) {
+//     this.slug = slug(this.title)
+//     next()
+// })
 
 function validateLesson(lesson) {
     const schema = {
         title: Joi.string().required(),
         description: Joi.string().required(),
-        programs: Joi.array(),
+        content: Joi.object(),
         published: Joi.boolean(),
-        content: Joi.required(),
+        programs: Joi.array().items( Joi.string() ),
+        questions: Joi.array(),
     }
     return Joi.validate(lesson, schema)
 }
