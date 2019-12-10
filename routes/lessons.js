@@ -9,8 +9,8 @@ router.get('/', async (req, res, next) => {
     res.send(lessons)
 })
 
-router.get('/:slug', async (req, res, next) => {
-    const lesson = await Lesson.findOne({ slug: req.params.slug })
+router.get('/:id', async (req, res, next) => {
+    const lesson = await Lesson.findById(req.params.id)
     res.send(lesson)
 })
 
@@ -30,11 +30,11 @@ router.post('/', async (req, res, next) => {
     res.status(201).send(lesson)
 })
 
-router.put('/:slug', async (req, res, next) => {
+router.put('/:id', async (req, res, next) => {
     const { error } = validateLesson(req.body)
     if (error) return res.status(400).send(error.details[0].message)
     
-    const lesson = await Lesson.findOneAndUpdate({slug: req.params.slug },{
+    const lesson = await Lesson.findByIdAndUpdate(req.params.id,{
         slug: slug(req.body.title),
         title: req.body.title,
         description: req.body.description,
@@ -47,8 +47,8 @@ router.put('/:slug', async (req, res, next) => {
     res.send(lesson)
 })
 
-router.delete('/:slug', async (req, res, next) => {
-    const lesson = Lesson.findOneAndDelete({ slug: req.params.slug })
+router.delete('/:id', async (req, res, next) => {
+    const lesson = Lesson.findByIdAndDelete(req.params.id)
     if (!lesson) return res.status(404).send("Lesson with the given ID not found.")
     res.send(lesson)
 })
