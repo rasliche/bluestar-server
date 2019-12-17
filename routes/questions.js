@@ -1,5 +1,6 @@
 const express = require('express')
 const { Question, validateQuestion } = require('../models/question.js')
+const { Lesson } = require('../models/lesson.js')
 
 const router = express.Router()
 
@@ -19,16 +20,26 @@ router.get('/:id', async (req, res, next) => {
 // })
 
 router.post('/', async (req, res, next) => {
-    const { error } = validateQuestion(req.body)
+    const { lessonId, text, answers, theMoreYouKnow } = req.body
+    const { error } = validateQuestion({
+        text,
+        answers,
+        theMoreYouKnow
+    })
     if (error) return res.status(400).send('Invalid question.')
 
     const question = new Question({
-        text: req.body.text,
-        answers: req.body.answers,
-        theMoreYouKnow: req.body.theMoreYouKnow,
+        text,
+        answers,
+        theMoreYouKnow,
     })
-    
     await question.save()
+    console.log(question)
+    // const lesson = await Lesson.findById(lessonId)
+    // console.log(lesson)
+    // lesson.questions.push(question)
+    // await lesson.save()
+
     res.status(201).send(question)
 })
 
