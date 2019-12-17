@@ -55,4 +55,5 @@ function validateQuestion(question) {
 }
 
 module.exports.questionSchema = questionSchema
+module.exports.validateQuestion = validateQuestion
 module.exports.Question = mongoose.model('Quiz', questionSchema)
