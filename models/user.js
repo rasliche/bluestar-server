@@ -1,4 +1,4 @@
-const config = require('config')
+// const config = require('config')
 const mongoose = require('mongoose')
 const Joi = require('joi')
 const passportLocalMongoose = require('passport-local-mongoose')
