@@ -1,27 +1,24 @@
 const config = require('config')
 const mongoose = require('mongoose')
 const Joi = require('joi')
-const jwt = require('jsonwebtoken')
+const passportLocalMongoose = require('passport-local-mongoose')
+// const jwt = require('jsonwebtoken')
 
 const userSchema = new mongoose.Schema({
+    email: {
+        type: String,
+        required: true,
+        unique: true,
+        trim: true,
+        lowercase: true,
+        minlength: 5,
+        maxlength: 255
+    },
     name: {
         type: String,
         required: true,
         minlength: 1,
         maxlength: 255
-    },
-    email: {
-        type: String,
-        required: true,
-        unique: true,
-        minlength: 5,
-        maxlength: 255
-    },
-    password: {
-        type: String,
-        required: true,
-        minlength: 1,
-        maxlength: 1024
     },
     operators: [
         {
@@ -65,20 +62,22 @@ const userSchema = new mongoose.Schema({
     }
 })
 
+userSchema.plugin(passportLocalMongoose, { usernameField: 'email' });
+
 // Method on User object that signs and returns a JSON Web Token
 // Token contains User._id, whether the user is a full Admin
 // and is no longer valid after 2 hours.
 
-userSchema.methods.generateAuthToken = function() {
-    const token = jwt.sign(
-        { 
-            _id: this._id,
-            isAdmin: this.isAdmin, // Can you just destructure { _id, isAdmin }
-        }, 
-        config.get('jwtPrivateKey'), // secret
-        { expiresIn: '2h' }) // claims
-    return token
-}
+// userSchema.methods.generateAuthToken = function() {
+//     const token = jwt.sign(
+//         { 
+//             _id: this._id,
+//             isAdmin: this.isAdmin, // Can you just destructure { _id, isAdmin }
+//         }, 
+//         config.get('jwtPrivateKey'), // secret
+//         { expiresIn: '2h' }) // claims
+//     return token
+// }
 
 // Validate that User has the required shape.
 // Used in creating new users and logging in.
