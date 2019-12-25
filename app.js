@@ -4,8 +4,11 @@ const express = require('express')
 const app = express()
 
 require('./startup/config')(app)
+require('./startup/session')(app)
+require('./startup/passport')()
 require('./startup/routes')(app)
 require('./startup/db')()
+
 
 const port = config.get('port')
 const server = app.listen(port)
