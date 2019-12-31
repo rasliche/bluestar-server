@@ -36,10 +36,10 @@ const questionSchema = new mongoose.Schema({
     //     {
     //     }
     // ],
-    // lessonId: {
-    //     type: mongoose.Schema.Types.ObjectId,
-    //     default: null,
-    // },
+    lesson: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Lesson',
+    },
 })
 
 function validateQuestion(question) {
@@ -50,10 +50,11 @@ function validateQuestion(question) {
             isRight: Joi.boolean().required(),
         }),
         theMoreYouKnow: Joi.string(),
+        lesson: Joi.any(),
     }
-    return Joi.validate(lesson, schema)
+    return Joi.validate(question, schema)
 }
 
 module.exports.questionSchema = questionSchema
 module.exports.validateQuestion = validateQuestion
-module.exports.Question = mongoose.model('Quiz', questionSchema)
+module.exports.Question = mongoose.model('Question', questionSchema)

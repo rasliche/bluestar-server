@@ -19,9 +19,10 @@ const lessonSchema = new mongoose.Schema({
         type: Boolean,
         default: false
     },
-    programs: [
-        { type: String }
-    ],
+    programs: [{
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Program',
+    }],
     // slug: {
     //     type: String,
     //     unique: true
@@ -43,8 +44,8 @@ function validateLesson(lesson) {
         description: Joi.string().required(),
         content: Joi.object(),
         published: Joi.boolean(),
-        programs: Joi.array().items( Joi.string() ),
-        questions: Joi.array(),
+        programs: Joi.any(),
+        questions: Joi.any(),
     }
     return Joi.validate(lesson, schema)
 }
