@@ -1,7 +1,10 @@
+const config = require('config')
 const helmet = require('helmet')
+const morgan = require('morgan')
 
 module.exports = function (app) {
     app.use(helmet())
+    app.use(morgan('dev'))
     
     app.use((req, res, next) => {
         res.setHeader('Access-Control-Allow-Origin', '*')
