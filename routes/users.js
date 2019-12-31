@@ -43,7 +43,6 @@ router.post('/', async (req, res, next) => {
     let user = await User.findOne({ email: req.body.email })
     if (user) { return res.status(400).send("User already exists.") }
 
-    console.log(req.body)
     user = new User({
         name: req.body.name,
         email: req.body.email,
@@ -68,6 +67,12 @@ router.post('/register-as-admin', async (req, res, next) => {
     let user = await User.findOne({ email: req.body.email })
     if (user) { return res.status(400).send("User already exists.") }
 
+    // let validAdminPasswordProvided
+    // if (req.body.adminPass && req.body.adminPass === config.get('admin_register_password')) {
+    //     validAdminPasswordProvided = true;
+    // }
+    // if (!validPassword) { return res.status(400).send('Invalid email or password') }
+
     const validPassword = (req.body.adminPass === config.get('admin_register_password'))
     if (!validPassword) { return res.status(400).send('Invalid email or password') }
     
@@ -75,7 +80,7 @@ router.post('/register-as-admin', async (req, res, next) => {
         name: req.body.name,
         email: req.body.email,
         password: req.body.password,
-        isAdmin: true
+        isAdmin: validPassword
     })
 
     const salt = await bcrypt.genSalt(10)
