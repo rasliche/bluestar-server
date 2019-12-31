@@ -5,13 +5,28 @@ const { Lesson, validateLesson } = require('../models/lesson')
 const router = express.Router()
 
 router.get('/', async (req, res, next) => {
-    const lessons = await Lesson.find()
-    res.send(lessons)
+    const query = Lesson.find()
+    if (req.query.questions === 'true') query.populate('questions')
+    if (req.query.programs === 'true') query.populate('programs')
+    try {
+        const lessons = await query.exec()
+        res.send(lessons)
+    } catch (error) {
+        next(error)
+    }
 })
 
 router.get('/:id', async (req, res, next) => {
-    const lesson = await Lesson.findById(req.params.id)
-    res.send(lesson)
+    const query = Lesson.findById(req.params.id)
+    console.log(req.query)
+    if (req.query.questions === 'true') query.populate('questions')
+    if (req.query.programs === 'true') query.populate('programs')
+    try {
+        const lesson = await query.exec()
+        res.send(lesson)
+    } catch (error) {
+        next(error)
+    }
 })
 
 router.post('/', async (req, res, next) => {
@@ -32,7 +47,7 @@ router.post('/', async (req, res, next) => {
 
 router.put('/:id', async (req, res, next) => {
     const { error } = validateLesson(req.body)
-    if (error) return res.status(400).send(error.details[0].message)
+    if (error) return res.status(400).send(error)
     
     const lesson = await Lesson.findByIdAndUpdate(req.params.id,{
         // slug: slug(req.body.title),
