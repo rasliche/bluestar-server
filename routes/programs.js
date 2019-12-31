@@ -8,7 +8,7 @@ router.get('/', async (req, res, next) => {
 })
 
 router.get('/:id', async (req, res, next) => {
-    const program = await Program.findOne({ _id: req.params.id })
+    const program = await Program.findById(req.params.id)
     res.send(program)
 })
 
