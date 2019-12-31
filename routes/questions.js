@@ -20,27 +20,34 @@ router.get('/:id', async (req, res, next) => {
 // })
 
 router.post('/', async (req, res, next) => {
-    const { lessonId, text, answers, theMoreYouKnow } = req.body
+    const { lesson, text, answers, theMoreYouKnow } = req.body
     const { error } = validateQuestion({
+        lesson,
         text,
         answers,
         theMoreYouKnow
     })
     if (error) return res.status(400).send('Invalid question.')
 
-    const question = new Question({
-        text,
-        answers,
-        theMoreYouKnow,
-    })
-    await question.save()
-    console.log(question)
-    // const lesson = await Lesson.findById(lessonId)
-    // console.log(lesson)
-    // lesson.questions.push(question)
-    // await lesson.save()
-
-    res.status(201).send(question)
+    try {
+        const question = new Question({
+            lesson: req.body.lesson,
+            text: req.body.text,
+            answers: req.body.answers,
+            theMoreYouKnow: req.body.theMoreYouKnow,
+        })
+        await question.save()
+        console.log(question)
+        const lesson = await Lesson.findById(req.body.lesson)
+        lesson.questions.push(question)
+        console.log(lesson)
+        await lesson.save()
+    
+        res.status(201).send(question)
+    } catch (error) {
+        console.log(error.stack)
+        next(error)
+    }
 })
 
 router.delete('/:id', async (req, res, next) => {
