@@ -1,21 +1,12 @@
-const express = require('express')
-const usersRoutes = require('../routes/users')
-const questionsRoutes = require('../routes/questions')
-const operatorsRoutes = require('../routes/operators')
-const lessonsRoutes = require('../routes/lessons')
-const postsRoutes = require('../routes/posts')
-const programsRoutes = require('../routes/programs')
-const { router: authRoutes } = require('../routes/auth')
-
 module.exports = function(app) {
-    app.use(express.json())
-    app.use('/api/users/', usersRoutes)
-    app.use('/api/questions/', questionsRoutes)
-    app.use('/api/operators/', operatorsRoutes)
-    app.use('/api/lessons/', lessonsRoutes)
-    app.use('/api/posts/', postsRoutes)
-    app.use('/api/programs/', programsRoutes)
-    app.use('/api/auth/', authRoutes)
+    app.use('/api/users/', require('../routes/usersRoutes'))
+    app.use('/api/questions/', require('../routes/questionsRoutes'))
+    app.use('/api/operators/', require('../routes/operatorsRoutes'))
+    app.use('/api/lessons/', require('../routes/lessonsRoutes'))
+    app.use('/api/lesson/', require('../routes/lessonQuestionsRoutes')) // :lessonId/questions/
+    app.use('/api/posts/', require('../routes/postsRoutes'))
+    app.use('/api/programs/', require('../routes/programsRoutes'))
+    app.use('/api/auth/', require('../routes/authRoutes'))
 
     app.use((error, req, res, next) => {
         const status = error.statusCode || 500
