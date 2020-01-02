@@ -17,7 +17,7 @@ exports.create = async (req, res, next) => {
   const { error } = validateLesson(req.body)
   if (error) return res.status(400).send(error)
 
-  let lesson = new Lesson({
+  const lesson = new Lesson({
     title: req.body.title,
     description: req.body.description,
     programs: req.body.programs,
