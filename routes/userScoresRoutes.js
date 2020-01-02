@@ -1,14 +1,14 @@
 const router = require('express').Router()
 const userScoresController = require('../controllers/userScoresController')
 
-router.get('/', userScoresController.index)
+router.get('/:userId/scores/', userScoresController.index)
 
-router.get('/:id', userScoresController.read)
+router.get('/:userId/scores/:scoreId', userScoresController.read)
 
-router.post('/', userScoresController.create)
+router.post('/:userId/scores/', userScoresController.create)
 
-router.put('/:id', userScoresController.update)
+router.put('/:userId/scores/:scoreId', userScoresController.update)
 
-router.delete('/:id', userScoresController.destroy)
+router.delete('/:userId/scores/:scoreId', userScoresController.destroy)
 
 module.exports = router
