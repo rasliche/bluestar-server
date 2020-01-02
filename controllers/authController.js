@@ -1,5 +1,3 @@
-const express = require('express')
-const router = express.Router()
 const Joi = require('joi')
 const { User } = require('../models/user')
 const bcrypt = require('bcrypt') // for comparing passwords
@@ -13,7 +11,7 @@ function validateLogin(user) {
     return Joi.validate(user, schema)
 }
 
-router.post('/login', async (req, res, next) => {
+exports.create = async (req, res, next) => {
     const { error } = validateLogin(req.body)
     if (error) { return res.status(400).send('Invalid email or password') }
 
@@ -30,7 +28,4 @@ router.post('/login', async (req, res, next) => {
     const { password, ...userWithoutPassword } = user.toObject()
     
     res.send({ ...userWithoutPassword, token })
-})
-
-module.exports.router = router
-module.exports.validateLogin = validateLogin
+}

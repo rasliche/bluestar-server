@@ -1,14 +1,12 @@
-const express = require('express')
-const router = express.Router()
-const { User, validateUser, validateRecord } = require('../models/user.js')
-const bcrypt = require('bcrypt')
 const config = require('config')
+const router = require('express').Router()
+const userController = require('../controllers/userController')
+
 const auth = require('../middleware/authenticated')
 
-router.get('/', async (req, res, next) => {
-    const users = await User.find()
-    res.send(users)
-})
+router.get('/', userController.index)
+
+router.post('/', userController.create)
 
 router.get('/me', [auth], async (req, res, next) => {
     const { token } = req
@@ -28,36 +26,8 @@ router.get('/me', [auth], async (req, res, next) => {
     res.send(userWithoutPassword)
 })
 
-router.get('/:id', async (req, res, next) => {
-    let user = await User.findById(req.params.id)
-    if (!user) return res.status(404).send("No user found with given ID.")
-    const { password, ...userWithoutPassword } = user.toObject()
-    res.send(userWithoutPassword)
-})
+router.get('/:id', userController.read)
 
-router.post('/', async (req, res, next) => {
-    // TODO: normalize email
-    const { error } = validateUser(req.body)
-    if (error) { return res.status(400).send("Invalid user data received.") }
-
-    let user = await User.findOne({ email: req.body.email })
-    if (user) { return res.status(400).send("User already exists.") }
-
-    user = new User({
-        name: req.body.name,
-        email: req.body.email,
-        password: req.body.password,
-    })
-
-    const salt = await bcrypt.genSalt(10)
-    user.password = await bcrypt.hash(user.password, salt)
-    await user.save()
-    
-    const token = user.generateAuthToken()
-    const { password, ...userWithoutPassword } = user.toObject()
-    
-    res.send({ ...userWithoutPassword, token })
-})
 
 router.post('/register-as-admin', async (req, res, next) => {
     // TODO: normalize email
