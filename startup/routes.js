@@ -1,5 +1,6 @@
 module.exports = function(app) {
     app.use('/api/users/', require('../routes/usersRoutes'))
+    app.use('/api/user/', require('../routes/userScoresRoutes'))
     app.use('/api/questions/', require('../routes/questionsRoutes'))
     app.use('/api/operators/', require('../routes/operatorsRoutes'))
     app.use('/api/lessons/', require('../routes/lessonsRoutes'))
