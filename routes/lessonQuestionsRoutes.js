@@ -1,14 +1,15 @@
-const router = require('express').Router()
+const router = require('express').Router({ mergeParams: true })
 const lessonQuestionsController = require('../controllers/lessonQuestionsController')
 
-router.get('/:lessonId/questions/', lessonQuestionsController.index)
+// app.use('/api/lesson/:lessonId/questions/', router)
+router.get('/', lessonQuestionsController.index)
 
-router.post('/:lessonId/questions/', lessonQuestionsController.create)
+router.post('/', lessonQuestionsController.create)
 
-router.get('/:lessonId/questions/:questionId', lessonQuestionsController.read)
+router.get('/:questionId', lessonQuestionsController.read)
 
-router.put('/:lessonId/questions/:questionId', lessonQuestionsController.update)
+router.put('/:questionId', lessonQuestionsController.update)
 
-router.delete('/:lessonId/questions/:questionId', lessonQuestionsController.destroy)
+router.delete('/:questionId', lessonQuestionsController.destroy)
 
 module.exports = router

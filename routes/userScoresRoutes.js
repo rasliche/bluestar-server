@@ -1,14 +1,15 @@
-const router = require('express').Router()
+const router = require('express').Router({ mergeParams: true })
 const userScoresController = require('../controllers/userScoresController')
 
-router.get('/:userId/scores/', userScoresController.index)
+// app.use('/api/user/:userId/scores/', router)
+router.get('/', userScoresController.index)
 
-router.get('/:userId/scores/:scoreId', userScoresController.read)
+router.post('/', userScoresController.create)
 
-router.post('/:userId/scores/', userScoresController.create)
+router.get('/:scoreId', userScoresController.read)
 
-router.put('/:userId/scores/:scoreId', userScoresController.update)
+router.put('/:scoreId', userScoresController.update)
 
-router.delete('/:userId/scores/:scoreId', userScoresController.destroy)
+router.delete('/:scoreId', userScoresController.destroy)
 
 module.exports = router
