@@ -1,16 +1,12 @@
 const { Lesson, validateLesson } = require('../models/lesson')
 
 exports.index = async (req, res, next) => {
-  const query = Lesson.find()
-  if (req.query.questions === 'true') query.populate('questions')
-  if (req.query.programs === 'true') query.populate('programs')
   try {
-    const lessons = await query.exec()
+    const lessons = await Lesson.find().populate('programs')
     res.send(lessons)
   } catch (error) {
     next(error)
   }
-  res.send()
 }
 
 exports.create = async (req, res, next) => {
@@ -51,7 +47,6 @@ exports.update = async (req, res, next) => {
     title: req.body.title,
     description: req.body.description,
     programs: req.body.programs,
-    published: req.body.published,
     content: req.body.content,
   })
   if (!lesson) return res.status(404).send("Lesson with given ID not found.")
