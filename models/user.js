@@ -23,16 +23,16 @@ const userSchema = new mongoose.Schema({
         minlength: 1,
         maxlength: 1024
     },
-    operators: [
-        {
-            name: { type: String },
-            _id: { type: mongoose.SchemaTypes.ObjectId },
-            manager: {
-                type: Boolean,
-                default: false
-            }
+    operators: [{
+        operator: {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: 'Operator'
+        },
+        canManage: {
+            type: Boolean,
+            default: false,
         }
-    ],
+    }],
     lessonScores: [
         {
             lessonId: {
