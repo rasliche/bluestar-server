@@ -17,7 +17,10 @@ const operatorSchema = new mongoose.Schema({
         default: "floridakeys"
     },
     programs: [ String ],
-    managers: [ mongoose.SchemaTypes.ObjectId ],
+    managers: [{
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'User'
+    }],
     annualRecognition: [{
         year: Number,
         requirements: {
