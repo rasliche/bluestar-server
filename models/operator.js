@@ -33,7 +33,10 @@ const operatorSchema = new mongoose.Schema({
             inPersonEvaluation: {
                 date: Date,
                 passed: Boolean,
-                evaluator: String
+                evaluator: {
+                    type: mongoose.Schema.Types.ObjectId,
+                    ref: 'User'
+                }
             }
         },
     }]
