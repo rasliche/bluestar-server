@@ -1,15 +1,32 @@
 const { User, validateRecord } = require('../models/user')
+const { Lesson } = require('../models/lesson')
 // expect a userId in the route and 
 // a record in the request body
 
-exports.index = (req, res, next) => {
+exports.index = async (req, res, next) => {
+  const user = await User.findById(req.params.userId)
+    .populate({ path: 'lessonScores.lesson' })
+  if (!user) return res.status(404).send("No user found with the given ID.")
   
-  res.send('index')
+  res.send(user.lessonScores)
 }
 
-exports.create = (req, res, next) => {
+exports.create = async (req, res, next) => {
+  const user = await User.findById(req.params.userId)
+  if (!user) return res.status(404).send("No user found with the given ID.")
   
-  res.send('create')
+  const lesson = await Lesson.findById(req.body.lessonId).select('title programs')
+
+  const newScore = {
+    lesson: req.body.lessonId,
+    score: req.body.score,
+  }
+  const savedScore = user.lessonScores.create(newScore)
+  user.lessonScores.push(savedScore)
+  await user.save()
+  
+  savedScore.lesson = lesson
+  res.send(savedScore)
 }
 
 exports.read = (req, res, next) => {
