@@ -1,0 +1,10 @@
+{
+    "name": "FKNMS Blue Star Online Training",
+    "port": 3000,
+    "db": "mongodb://localhost:27017/bluestar",
+    "jwtPrivateKey": "bluestarsecretkey",
+    "mail": {
+        "host": "dev-mail-server"
+    },
+    "admin_register_password": "Enter a password to create a new admin."
+}
