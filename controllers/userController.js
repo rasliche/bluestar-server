@@ -33,7 +33,7 @@ exports.create = async (req, res, next) => {
 exports.read = async (req, res, next) => {
     let user = await User.findById(req.params.id)
     if (!user) return res.status(404).send("No user found with given ID.")
-    const { password, ...userWithoutPassword } = user.toObject()
+    const { password, lessonScores, operators, ...userWithoutPassword } = user.toObject()
     res.send(userWithoutPassword)
 }
 
