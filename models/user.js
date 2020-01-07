@@ -35,13 +35,10 @@ const userSchema = new mongoose.Schema({
     }],
     lessonScores: [
         {
-            lessonId: {
+            lesson: {
                 type: mongoose.Schema.Types.ObjectId,
-                required: true,
-            },
-            lessonName: {
-                type: String,
-                required: true,
+                ref: 'Lesson',
+                // required: true,
             },
             score: {
                 type: Number,
