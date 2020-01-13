@@ -10,6 +10,7 @@ module.exports = function(app) {
     app.use('/api/lesson/:lessonId/cover-photo/', require('../routes/lessonCoverPhotoRoutes'))
     app.use('/api/lesson/:lessonId/questions/', require('../routes/lessonQuestionsRoutes'))
     app.use('/api/lesson/:lessonId/programs/', require('../routes/lessonProgramsRoutes'))
+    app.use('/api/lesson/:lessonId/content/', require('../routes/lessonContentRoutes'))
     app.use('/api/published-lessons/', require('../routes/publishedLessonsRoutes'))
     app.use('/api/posts/', require('../routes/postsRoutes'))
     app.use('/api/programs/', require('../routes/programsRoutes'))
