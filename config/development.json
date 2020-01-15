@@ -3,6 +3,7 @@
     "mail": {
         "host": "dev-mail-server"
     },
-    "mongo_db_uri": "mongodb://localhost:27017/bluestar_development",
+    "jwtPrivateKey": "bluestarsecretkey",
+    "db": "mongodb://localhost:27017/bluestar_development",
     "admin_register_password": "adminpassword"
 }
