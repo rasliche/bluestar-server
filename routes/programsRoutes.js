@@ -1,6 +1,5 @@
-const express = require('express')
+const router = require('express').Router({ mergeParams: true })
 const { Program, validateProgram } = require('../models/program')
-const router = express.Router()
 
 router.get('/', async (req, res, next) => {
     const programs = await Program.find()
