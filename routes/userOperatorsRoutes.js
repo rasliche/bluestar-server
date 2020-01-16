@@ -1,6 +1,7 @@
 const router = require('express').Router()
 const userOperatorsController = require('../controllers/userOperatorsController')
 
+// /api/user/:userId/operators/
 router.get('/', userOperatorsController.index)
 
 router.post('/', userOperatorsController.create)
