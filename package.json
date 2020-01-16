@@ -9,8 +9,8 @@
   "scripts": {
     "start:dev": "export NODE_ENV=development & nodemon app.js",
     "start": "node app.js",
-    "test": "export NODE_ENV=test & jest --watchAll --verbose --coverage"
-    "seed": "node ./data/seed.js",
+    "test": "export NODE_ENV=test & jest --watchAll --verbose --coverage",
+    "seed": "node ./data/seed.js"
   },
   "repository": {
     "type": "git",
