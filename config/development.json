@@ -1,9 +1,5 @@
 {
     "name": "FKNMS Blue Star Online Training - DEVELOPMENT",
-    "mail": {
-        "host": "dev-mail-server"
-    },
-    "jwtPrivateKey": "bluestarsecretkey",
     "db": "mongodb://localhost:27017/bluestar_development",
-    "admin_register_password": "adminpassword"
+    "admin_register_password": "devadminpassword"
 }
