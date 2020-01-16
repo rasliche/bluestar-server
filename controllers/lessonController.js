@@ -48,7 +48,7 @@ exports.update = async (req, res, next) => {
     description: req.body.description,
     programs: req.body.programs,
     content: req.body.content,
-  })
+  }, { new: true })
   if (!lesson) return res.status(404).send("Lesson with given ID not found.")
 
   res.send(lesson)

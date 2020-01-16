@@ -15,9 +15,9 @@ describe('/api/operators', () => {
         server = require('../../app')
     })
     afterEach(async () => {
-        server.close()
         await Operator.deleteMany({})
         await User.deleteMany({})
+        server.close()
     })
 
     describe('GET /', () => {
