@@ -1,5 +1,6 @@
 const router = require('express').Router({ mergeParams: true })
 const lessonCoverPhotoController = require('../controllers/lessonCoverPhotoController')
+const isObjectId = require('../middleware/isObjectId')
 
 // Read just the cover photo
 router.get('/', lessonCoverPhotoController.index)
