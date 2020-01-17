@@ -7,9 +7,9 @@
     "node": "11.x"
   },
   "scripts": {
-    "start:dev": "NODE_ENV=development nodemon app.js",
+    "start:dev": "NODE_ENV=development & nodemon app.js",
     "start": "node app.js",
-    "test": "NODE_ENV=test jest --watchAll --verbose --coverage"
+    "test": "NODE_ENV=test & jest --watchAll --verbose --coverage"
   },
   "repository": {
     "type": "git",
