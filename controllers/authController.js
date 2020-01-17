@@ -15,7 +15,7 @@ function validateLogin(user) {
 exports.create = async (req, res, next) => {
   const { errors } = validationResult(req)
   console.log(errors)
-  if (errors) { return res.status(422).send('Invalid email received.') }
+  if (errors) { return res.status(422).send('Invalid email or password received.') }
 
   const { error } = validateLogin(req.body)
   if (error) { return res.status(400).send('Invalid email or password.') }
