@@ -2,7 +2,6 @@
     "name": "FKNMS Blue Star Online Training - TESTING",
     "port": 3001,
     "db": "mongodb://localhost:27017/bluestar_test",
-    "mail": {
-        "host": "test-mail-server"
-    }
+    "jwtPrivateKey": "test",
+    "admin_register_password": "test"
 }

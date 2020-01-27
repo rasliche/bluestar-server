@@ -5,7 +5,7 @@ const morgan = require('morgan')
 
 module.exports = function (app) {
     app.use(helmet())
-    if (config.util.getEnv() === 'development') {
+    if (config.util.getEnv('NODE_ENV') === 'development') {
         app.use(morgan('dev'))
     }
 

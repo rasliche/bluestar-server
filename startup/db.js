@@ -9,7 +9,7 @@ module.exports = async function () {
         useUnifiedTopology: true,
 
     })
-    if (config.util.getEnv() === 'development') {
+    if (config.util.getEnv('NODE_ENV') === 'development') {
         console.log(`Connected to ${db}`)
     }
 }
