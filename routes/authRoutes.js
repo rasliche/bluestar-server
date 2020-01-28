@@ -5,8 +5,8 @@ const authController = require('../controllers/authController')
 
 router.post('/login', 
     [
-        body('email').not().isEmpty().isEmail(),
-        body('password').notEmpty()
+        body('email').isEmail().notEmpty(),
+        body('password').isLength({ min: 6 }).notEmpty()
     ], 
     authController.create)
 
