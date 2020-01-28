@@ -5,7 +5,9 @@ const morgan = require('morgan')
 
 module.exports = function (app) {
     app.use(helmet())
-    app.use(morgan('dev'))
+    if (config.util.getEnv('NODE_ENV') === 'development') {
+        app.use(morgan('dev'))
+    }
 
     app.use(bodyParser.json())
     

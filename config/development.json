@@ -1,5 +1,7 @@
 {
     "name": "FKNMS Blue Star Online Training - DEVELOPMENT",
+    "port": 3000,
     "db": "mongodb://localhost:27017/bluestar_development",
+    "jwtPrivateKey": "developmentsecret",
     "admin_register_password": "devadminpassword"
 }

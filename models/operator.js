@@ -9,9 +9,6 @@ const operatorSchema = new mongoose.Schema({
         unique: true,
         maxlength: 50,
     },
-    slug: {
-        type: String
-    },
     password: {
         type: String,
         default: "floridakeys"
@@ -40,11 +37,6 @@ const operatorSchema = new mongoose.Schema({
             }
         },
     }]
-})
-
-operatorSchema.pre('save', function(next) {
-    this.slug = slug(this.name, { lower: true })
-    next()
 })
 
 function validateOperator(operator) {

@@ -27,7 +27,6 @@ exports.create = async (req, res, next) => {
 
 exports.read = async (req, res, next) => {
   const query = Lesson.findById(req.params.id)
-  console.log(req.query)
   if (req.query.questions === 'true') query.populate('questions')
   if (req.query.programs === 'true') query.populate('programs')
   try {

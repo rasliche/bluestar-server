@@ -6,10 +6,10 @@ router.get('/', userScoresController.index)
 
 router.post('/', userScoresController.create)
 
-router.get('/:scoreId', userScoresController.read)
+router.get('/:lessonId', userScoresController.read)
 
-router.put('/:scoreId', userScoresController.update)
+router.put('/:lessonId', userScoresController.update)
 
-router.delete('/:scoreId', userScoresController.destroy)
+router.delete('/:lessonId', userScoresController.destroy)
 
 module.exports = router
