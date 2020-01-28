@@ -1,5 +1,6 @@
 module.exports = function(app) {
     app.use('/api/auth/', require('../routes/authRoutes'))
+    app.use('/api/admin/', require('../routes/adminRoutes'))
     app.use('/api/users/', require('../routes/usersRoutes'))
     app.use('/api/user/:userId/scores/', require('../routes/userScoresRoutes'))
     app.use('/api/user/:userId/operators/', require('../routes/userOperatorsRoutes'))
@@ -10,6 +11,7 @@ module.exports = function(app) {
     app.use('/api/lesson/:lessonId/cover-photo/', require('../routes/lessonCoverPhotoRoutes'))
     app.use('/api/lesson/:lessonId/questions/', require('../routes/lessonQuestionsRoutes'))
     app.use('/api/lesson/:lessonId/programs/', require('../routes/lessonProgramsRoutes'))
+    app.use('/api/lesson/:lessonId/content/', require('../routes/lessonContentRoutes'))
     app.use('/api/published-lessons/', require('../routes/publishedLessonsRoutes'))
     app.use('/api/posts/', require('../routes/postsRoutes'))
     app.use('/api/programs/', require('../routes/programsRoutes'))
