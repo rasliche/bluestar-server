@@ -56,7 +56,7 @@ describe('/api/lessons', () => {
 
     describe('GET /:lessonId', () => {
         it('should return a lesson if a valid lessonId is passed', async () => {
-            
+
             const response = await request(server).get(`/api/lessons/${lessonId}`)
             expect(response.status).toBe(200)
         })
@@ -73,14 +73,14 @@ describe('/api/lessons', () => {
         })
     })
 
-    // describe('POST /', () => {
-    //     it('should return 401 if client is not logged in', async () => {
-    //         const response = await request(server)
-    //             .post('/api/operators')
-    //             .send({ name: 'operator1' })
+    describe('POST /', () => {
+        // it('should return 401 if client is not logged in', async () => {
+        //     const response = await request(server)
+        //         .post('/api/operators')
+        //         .send({ name: 'operator1' })
 
-    //         expect(response.status).toBe(401)
-    //     })
+        //     expect(response.status).toBe(401)
+        // })
 
     //     it('should return 400 if operator name is not present', async () => {
     //         // const token = new User().generateAuthToken()
@@ -118,19 +118,18 @@ describe('/api/lessons', () => {
     //         expect(operator).not.toBeNull()
     //     })
         
-    //     it('should return the operator if it is valid', async () => {
-    //         // const token = new User().generateAuthToken()
-    //         const name = 'multi name operator'
-    //         const response = await request(server)
-    //             .post('/api/operators')
-    //             .set('Authorization', `Bearer: ${token}`)
-    //             .send({ name })
+        it('should return the lesson if it is saved to the database', async () => {
+            const token = new User().generateAuthToken()
+            const title = 'a'
+            const response = await request(server)
+                .post('/api/lessons')
+                .set('Authorization', `Bearer: ${token}`)
+                .send({ title })
 
-    //         expect(response.body).toHaveProperty('_id')
-    //         expect(response.body).toHaveProperty('name', name)
-    //         expect(response.body).toHaveProperty('slug', slug(name))
-    //     })
-    // })
+            expect(response.statusCode).toBe(201)
+            expect(response.body).toHaveProperty('title', title)
+        })
+    })
 
     // describe('DELETE /:id', () => {
     //     it('should delete the shop with the given ID from the database if JWT is an Admin', async () => {
