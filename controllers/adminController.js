@@ -1,6 +1,7 @@
 const config = require('config')
 const bcrypt = require('bcrypt')
-const { User, validateUser } = require('../models/user')
+const { validationResult } = require('express-validator')
+const { User } = require('../models/user')
 
 exports.index = (req, res, next) => {
   
@@ -9,8 +10,8 @@ exports.index = (req, res, next) => {
 
 exports.create = async (req, res, next) => {
     // TODO: normalize email
-    const { error } = validateUser(req.body)
-    if (error) { return res.status(400).send("Invalid user data received.") }
+    const errors = validationResult(req)
+    if (!errors.isEmpty()) { return res.status(422).send("Invalid user data received.") }
 
     let user = await User.findOne({ email: req.body.email })
     if (user) { return res.status(400).send("User already exists.") }
