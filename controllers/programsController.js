@@ -1,4 +1,5 @@
 const { Program } = require('../models/program')
+const { validationResult } = require('express-validator')
 
 exports.index = async (req, res, next) => {
   const programs = await Program.find()
@@ -6,12 +7,18 @@ exports.index = async (req, res, next) => {
 }
 
 exports.create = async (req, res, next) => {
-  const program = new Program({
+  const error = validationResult(req)
+  if (!error.isEmpty()) { return res.status(422).send("Invalid program data received.")}
+
+  const program = await Program.findOne({ name: req.body.name })
+  if (program) { return res.status(400).send("Program already exists.")}
+
+  const newProgram = new Program({
     name: req.body.name,
   })
   
-  await program.save()
-  res.status(201).send(program)
+  await newProgram.save()
+  res.status(201).send(newProgram)
 }
 
 exports.read = async (req, res, next) => {
