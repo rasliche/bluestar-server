@@ -1,24 +1,17 @@
+const { Lesson } = require('../models/lesson')
+
 exports.index = (req, res, next) => {
   
   res.send(['index', req.params])
 }
 
-exports.create = (req, res, next) => {
-  
-  res.send(['create', req.params])
-}
+exports.update = async (req, res, next) => {
+  console.log(req.body.content)
+  const lesson = await Lesson.findByIdAndUpdate(
+    req.params.lessonId, {
+      content: req.body.content,
+    }, { new: true }) // Send the new document back
+  if (!lesson) return res.status(404).send("Lesson with given ID not found.")
 
-exports.read = (req, res, next) => {
-  
-  res.send(['read', req.params])
-}
-
-exports.update = (req, res, next) => {
-  
-  res.send(['update', req.params])
-}
-
-exports.destroy = (req, res, next) => {
-  
-  res.send(['destroy', req.params])
+  res.send(lesson)
 }
