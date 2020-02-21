@@ -1,7 +1,6 @@
 const router = require('express').Router()
-const { body, sanitizeBody } = require('express-validator')
-
 const authController = require('../controllers/authController')
+const { body } = require('express-validator')
 
 router.post('/login', 
     [
