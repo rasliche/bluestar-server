@@ -22,7 +22,7 @@ exports.create = async (req, res, next) => {
     // }
     // if (!validPassword) { return res.status(400).send('Invalid email or password') }
 
-    const validPassword = (req.body.adminPass === config.get('admin_register_password'))
+    const validPassword = (req.body.adminPass === config.get('adminRegisterPassword'))
     if (!validPassword) { return res.status(400).send('Invalid email or password') }
     
     user = new User({

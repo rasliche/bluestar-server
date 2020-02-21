@@ -1,9 +1,13 @@
 {
-    "name": "FKNMS Blue Star Online Training - DEVELOPMENT",
+    "name": "Blue Star Online Training - DEVELOPMENT",
     "port": 3000,
-    "db": {
-        "mongo_db": "bluestar_development"
-    },
     "jwtPrivateKey": "developmentsecret",
-    "admin_register_password": "devadminpassword"
+    "adminRegisterPassword": "developmentadminpassword",
+    "db": {
+        "mongo_username": "bluestar_development",
+        "mongo_password": "",
+        "mongo_hostname": "mongodb://localhost",
+        "mongo_port": "27017",
+        "mongo_db": "bluestar"
+    }
 }

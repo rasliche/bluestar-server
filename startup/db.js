@@ -3,11 +3,14 @@ const mongoose = require('mongoose')
 
 module.exports = async function () {
     const db = {}
+    db.mongo_username = config.get('db.mongo_username')
+    db.mongo_password = config.get('db.mongo_password')
     db.mongo_hostname = config.get('db.mongo_hostname')
     db.mongo_port = config.get('db.mongo_port')
     db.mongo_db = config.get('db.mongo_db')
     
-    await mongoose.connect(`${db.mongo_hostname}:${db.mongo_port}/${db.mongo_db}`, { 
+    await mongoose.connect(
+        `mongodb+srv://${db.mongo_username}:${db.mongo_password}@${db.mongo_hostname}:${db.mongo_port}/${db.mongo_db}/?retryWrites=true&w=majority`, { 
         useNewUrlParser: true,
         useCreateIndex: true,
         useUnifiedTopology: true,
