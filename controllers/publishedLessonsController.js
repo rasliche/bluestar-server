@@ -1,9 +1,10 @@
 const { Lesson } = require('../models/lesson')
 
-// exports.index = (req, res, next) => {
-  
-//   res.send(['index', req.params])
-// }
+exports.index = async (req, res, next) => {
+  const lessons = await Lesson.find({ published: true })
+  if (!lessons) { return res.status(404).send('No published lessons found.') }
+  res.send(lessons)
+}
 
 exports.create = async (req, res, next) => {
   const lesson = await Lesson.findByIdAndUpdate(
