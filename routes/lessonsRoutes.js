@@ -1,15 +1,16 @@
-const router = require('express').Router()
+const router = require('express').Router({ mergeParams: true })
 const lessonController = require('../controllers/lessonController')
+const auth = require('../middleware/authenticated')
 const admin = require('../middleware/admin')
 
 router.get('/', lessonController.index)
 
-router.post('/', admin, lessonController.create)
+router.post('/', [auth, admin], lessonController.create)
 
 router.get('/:id', lessonController.read)
 
-router.put('/:id', admin, lessonController.update)
+router.put('/:id', [auth, admin], lessonController.update)
 
-router.delete('/:id', admin, lessonController.destroy)
+router.delete('/:id', [auth, admin], lessonController.destroy)
 
 module.exports = router
