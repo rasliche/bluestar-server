@@ -4,10 +4,10 @@
     "jwtPrivateKey": "JWT_PRIVATE_KEY",
     "adminRegisterPassword": "ADMIN_REGISTER_PASSWORD",
     "db": {
+        "mongo_db": "MONGO_DB",
+        "mongo_hostname": "MONGO_HOSTNAME",
         "mongo_username": "MONGO_USERNAME",
         "mongo_password": "MONGO_PASSWORD",
-        "mongo_hostname": "MONGO_HOSTNAME",
-        "mongo_port": "MONGO_PORT",
-        "mongo_db": "MONGO_DB"
+        "mongo_port": "MONGO_PORT"
     }
 }

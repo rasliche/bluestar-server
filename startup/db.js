@@ -9,6 +9,8 @@ module.exports = async function () {
     db.mongo_port = config.get('db.mongo_port')
     db.mongo_db = config.get('db.mongo_db')
 
+    console.log(db)
+    
     let mongoURI
 
     if (config.util.getEnv('NODE_ENV') === 'development') {
