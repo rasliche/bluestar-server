@@ -8,9 +8,21 @@ module.exports = async function () {
     db.mongo_hostname = config.get('db.mongo_hostname')
     db.mongo_port = config.get('db.mongo_port')
     db.mongo_db = config.get('db.mongo_db')
+
+    let mongoURI
+
+    if (config.util.getEnv('NODE_ENV') === 'development') {
+        console.log("development URI")
+        mongoURI = `mongodb://${db.mongo_hostname}:${db.mongo_port}/${db.mongo_db}`
+    } else if (config.util.getEnv('NODE_ENV') === 'production') {
+        console.log("production URI")
+        mongoURI = `mongodb+srv://${db.mongo_username}:${db.mongo_password}@${db.mongo_hostname}:${db.mongo_port}/${db.mongo_db}/?retryWrites=true&w=majority`
+    } else {
+        console.log("Error forming databse URI")
+    }
     
     await mongoose.connect(
-        `mongodb+srv://${db.mongo_username}:${db.mongo_password}@${db.mongo_hostname}:${db.mongo_port}/${db.mongo_db}/?retryWrites=true&w=majority`, { 
+        mongoURI, { 
         useNewUrlParser: true,
         useCreateIndex: true,
         useUnifiedTopology: true,
