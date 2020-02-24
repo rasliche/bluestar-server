@@ -8,18 +8,13 @@ module.exports = async function () {
     db.mongo_hostname = config.get('db.mongo_hostname')
     db.mongo_port = config.get('db.mongo_port')
     db.mongo_db = config.get('db.mongo_db')
-
-    console.log(db)
     
     let mongoURI
 
     if (config.util.getEnv('NODE_ENV') === 'development') {
-        console.log("development URI")
         mongoURI = `mongodb://${db.mongo_hostname}:${db.mongo_port}/${db.mongo_db}`
-    } else {
-        console.log("production URI")
+    } else if (config.util.getEnv('NODE_ENV') === 'production') {
         mongoURI = `mongodb+srv://${db.mongo_username}:${db.mongo_password}@${db.mongo_hostname}/${db.mongo_db}?retryWrites=true&w=majority`
-        console.log(mongoURI)
     }
     
     await mongoose.connect(
