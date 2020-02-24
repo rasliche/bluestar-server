@@ -4,10 +4,10 @@
     "jwtPrivateKey": "developmentsecret",
     "adminRegisterPassword": "developmentadminpassword",
     "db": {
-        "mongo_username": "bluestar_development",
+        "mongo_username": "",
         "mongo_password": "",
-        "mongo_hostname": "mongodb://localhost",
+        "mongo_hostname": "localhost",
         "mongo_port": "27017",
-        "mongo_db": "bluestar"
+        "mongo_db": "bluestar_development"
     }
 }
