@@ -18,7 +18,7 @@ module.exports = async function () {
         mongoURI = `mongodb://${db.mongo_hostname}:${db.mongo_port}/${db.mongo_db}`
     } else {
         console.log("production URI")
-        mongoURI = `mongodb+srv://${db.mongo_username}:${db.mongo_password}@${db.mongo_hostname}/${db.mongo_db}/?retryWrites=true&w=majority`
+        mongoURI = `mongodb+srv://${db.mongo_username}:${db.mongo_password}@${db.mongo_hostname}/${db.mongo_db}?retryWrites=true&w=majority`
         console.log(mongoURI)
     }
     
