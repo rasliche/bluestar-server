@@ -7,7 +7,7 @@
         "mongo_username": "MONGO_USERNAME",
         "mongo_password": "MONGO_PASSWORD",
         "mongo_hostname": "MONGO_HOSTNAME",
-        "mongo_port": "27017",
+        "mongo_port": "MONGO_PORT",
         "mongo_db": "MONGO_DB"
     }
 }

@@ -26,6 +26,7 @@ module.exports = async function () {
         useUnifiedTopology: true,
 
     })
+    
     if (config.util.getEnv('NODE_ENV') === 'development') {
         console.log(`Connected to the ${db.mongo_db} database on ${db.mongo_hostname}:${db.mongo_port}`)
     }
