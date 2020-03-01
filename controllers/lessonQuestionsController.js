@@ -14,7 +14,12 @@ exports.create = async (req, res, next) => {
     const { error } = validateQuestion(req.body)
     if (error) return res.status(400).send('Invalid question provided.')
     
-    const question = await new Question({ ...req.body }).save()
+    const question = await new Question({
+      lesson: req.params.lessonId,
+      text: req.body.text,
+      answers: req.body.answers,
+      theMoreYouKnow: req.body.theMoreYouKnow
+    }).save()
     lesson.questions.push(question._id)
     await lesson.save()
     
