@@ -1,4 +1,4 @@
-const { User, validateUser, validateRecord } = require('../models/user.js')
+const { User } = require('../models/user.js')
 const bcrypt = require('bcrypt')
 
 exports.index = async (req, res, next) => {
@@ -8,9 +8,6 @@ exports.index = async (req, res, next) => {
 
 exports.create = async (req, res, next) => {
     // TODO: normalize email
-    const { error } = validateUser(req.body)
-    if (error) { return res.status(400).send("Invalid user data received.") }
-
     let user = await User.findOne({ email: req.body.email })
     if (user) { return res.status(400).send("User already exists.") }
 
