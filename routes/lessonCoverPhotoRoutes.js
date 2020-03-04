@@ -5,6 +5,6 @@ const lessonCoverPhotoController = require('../controllers/lessonCoverPhotoContr
 router.get('/', lessonCoverPhotoController.index)
 
 // Update the cover photo
-router.put('/:id', lessonCoverPhotoController.update)
+router.put('/', lessonCoverPhotoController.update)
 
 module.exports = router
