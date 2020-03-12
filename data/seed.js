@@ -54,5 +54,5 @@ runSeed()
 
 
 // module.exports.createFakeAdmin = createFakeAdmin
-// module.exports.createFakeUser = createFakeUser
-// module.exports.createFakeOperator = createFakeOperator
+module.exports.createFakeUser = createFakeUser
+module.exports.createFakeOperator = createFakeOperator

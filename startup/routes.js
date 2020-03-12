@@ -15,6 +15,7 @@ module.exports = function(app) {
     app.use('/api/published-lessons/', require('../routes/publishedLessonsRoutes'))
     app.use('/api/posts/', require('../routes/postsRoutes'))
     app.use('/api/programs/', require('../routes/programsRoutes'))
+    app.use('/api/fakes', require('../routes/fakesRoutes'))
 
     app.use((error, req, res, next) => {
         const status = error.statusCode || 500
