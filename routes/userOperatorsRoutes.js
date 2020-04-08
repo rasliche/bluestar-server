@@ -1,4 +1,4 @@
-const router = require('express').Router()
+const router = require('express').Router({ mergeParams: true })
 const userOperatorsController = require('../controllers/userOperatorsController')
 
 // /api/user/:userId/operators/

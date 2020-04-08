@@ -1,4 +1,7 @@
 module.exports = function(app) {
+    // app.get('/', (req, res, next) => {
+    //     res.send('API Available.')
+    // })
     app.use('/api/auth/', require('../routes/authRoutes'))
     app.use('/api/admin/', require('../routes/adminRoutes'))
     app.use('/api/users/', require('../routes/usersRoutes'))

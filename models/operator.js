@@ -1,6 +1,4 @@
 const mongoose = require('mongoose')
-const slug = require('slug')
-const Joi = require('joi')
 
 const operatorSchema = new mongoose.Schema({
     name: {
@@ -39,15 +37,4 @@ const operatorSchema = new mongoose.Schema({
     }]
 })
 
-function validateOperator(operator) {
-    const schema = {
-        name: Joi.string().max(50).required(),
-        password: Joi.string().required(),
-        programs: Joi.array(),
-        managers: Joi.array(),
-    }
-    return Joi.validate(operator, schema)
-}
-
 module.exports.Operator = mongoose.model('Operator', operatorSchema)
-module.exports.validateOperator = validateOperator
