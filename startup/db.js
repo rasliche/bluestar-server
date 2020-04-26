@@ -18,7 +18,10 @@ module.exports = async function () {
     }
     
     await mongoose.connect(
-        mongoURI, { 
+        mongoURI, {
+        reconnectTries: Number.MAX_VALUE,
+        reconnectInterval: 500,
+        connectTimeoutMS: 10000,
         useNewUrlParser: true,
         useCreateIndex: true,
         useUnifiedTopology: true,
